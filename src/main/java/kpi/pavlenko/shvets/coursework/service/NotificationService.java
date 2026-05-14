@@ -1,0 +1,50 @@
+package kpi.pavlenko.shvets.coursework.service;
+
+import kpi.pavlenko.shvets.coursework.entity.Notifications;
+import kpi.pavlenko.shvets.coursework.entity.User;
+import kpi.pavlenko.shvets.coursework.repository.NotificationRepository;
+import kpi.pavlenko.shvets.coursework.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional
+public class NotificationService {
+    @Autowired private NotificationRepository notificationRepository;
+    @Autowired private UserRepository userRepository;
+
+    @Transactional(readOnly = true)
+    public List<Notifications> getAllUserNotifications(String login) {
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found."));
+        return notificationRepository.findByUserId(user.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public long count(String login){
+        User user = userRepository.findByLogin(login).orElse(null);
+        if(user!=null){
+            return notificationRepository.countByUserIdAndReadFalse(user.getId());
+        }
+        return 0;
+    }
+
+    public void markRead(Long id){
+        notificationRepository.findById(id).ifPresent(notification -> {
+            notification.setRead(true);
+            notificationRepository.save(notification);
+        });
+    }
+
+    public void markReadAll(String login){
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found."));
+        List<Notifications> notifications = notificationRepository.findByUserId(user.getId());
+        for(Notifications notification : notifications){
+            notification.setRead(true);
+        }
+        notificationRepository.saveAll(notifications);
+    }
+}

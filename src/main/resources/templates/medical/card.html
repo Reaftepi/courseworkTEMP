@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Медична картка | ClinicApp</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="page-body">
+<nav class="navbar">
+  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
+  <div class="nav-links">
+    <a th:href="@{/patients}"     class="nav-link active">Пацієнти</a>
+    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
+    <a th:href="@{/notifications}" class="nav-link">🔔</a>
+  </div>
+  <div class="nav-user">
+    <form th:action="@{/logout}" method="post" style="display:inline">
+      <button type="submit" class="btn-logout">Вийти</button>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+  <div class="page-header">
+    <h2 class="page-title">📋 Медична картка: <span th:text="${patient.fullName}"></span></h2>
+    <div>
+      <a th:href="@{/patients/{id}(id=${patient.id})}" class="btn btn-secondary">← Назад</a>
+      <!-- Новий протокол — через POST -->
+      <form th:action="@{/medical/patient/{id}/protocol/new(id=${patient.id})}"
+            method="post">
+        <select name="staffId" required>
+          <option value="">— оберіть лікаря —</option>
+          <option th:each="doc : ${doctors}"
+                  th:value="${doc.id}"
+                  th:text="${doc.fullName}">Лікар</option>
+        </select>
+        <button type="submit" class="btn btn-primary">+ Новий протокол</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Список клінічних протоколів -->
+  <div th:if="${not #lists.isEmpty(protocols)}">
+    <div th:each="proto : ${protocols}" class="card protocol-card mt-3">
+      <div class="protocol-header">
+        <div>
+          <strong>Протокол №<span th:text="${proto.id}"></span></strong>
+          <span class="text-muted ml-2"
+                th:text="${proto.startDate != null ? #temporals.format(proto.startDate,'dd.MM.yyyy') : '—'}">
+          </span>
+          — Лікар: <span th:text="${proto.staff.fullName}"></span>
+        </div>
+        <a th:href="@{/medical/protocol/{id}(id=${proto.id})}" class="btn btn-sm btn-info">
+          Відкрити →
+        </a>
+      </div>
+      <p th:if="${proto.result != null}" class="text-content mt-2">
+        <strong>Результат:</strong> <span th:text="${proto.result}"></span>
+      </p>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(protocols)}" class="card p-3 text-muted">
+    Протоколів ще немає. Натисніть «+ Новий протокол» щоб розпочати.
+  </div>
+
+</div>
+</body>
+</html>

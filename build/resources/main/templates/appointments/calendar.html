@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Розклад | ClinicApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- ====== НАВІГАЦІЯ (ПОВНІСТЮ ВИПРАВЛЕНА) ====== -->
+<nav class="navbar">
+    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
+        <a th:href="@{/patients}"        class="nav-link">Пацієнти</a>
+        <a th:href="@{/appointments}"    class="nav-link active">Розклад</a>
+        <!-- ВИПРАВЛЕНО: Тільки для лікаря -->
+        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
+        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')">Персонал</a>
+        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
+            <span>🔔</span>
+            <span>Сповіщення</span>
+            <span class="badge"
+                  th:text="${unreadNotifications}"
+                  th:classappend="${unreadNotifications == 0 ? 'hidden' : ''}"></span>
+        </a>
+    </div>
+    <div class="nav-user">
+        <span sec:authentication="name" class="nav-username"></span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="btn-logout">Вийти</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}"   class="alert alert-error"   th:text="${errorMessage}"></div>
+
+    <div class="page-header">
+        <h2 class="page-title">📅 Розклад прийомів</h2>
+        <a th:href="@{/appointments/new}" class="btn btn-primary">+ Новий запис</a>
+    </div>
+
+    <!-- Фільтр та таблиця без змін -->
+    <form th:action="@{/appointments}" method="get" class="filter-bar card">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Лікар</label>
+                <select name="staffId">
+                    <option value="">— всі лікарі —</option>
+                    <option th:each="doc : ${doctors}"
+                            th:value="${doc.id}"
+                            th:text="${doc.fullName}"
+                            th:selected="${doc.id == selectedStaffId}">Лікар</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Дата</label>
+                <input type="date" name="date"
+                       th:value="${#temporals.format(selectedDate,'yyyy-MM-dd')}"/>
+            </div>
+            <div class="form-group" style="align-self:flex-end">
+                <button type="submit" class="btn btn-secondary">🔍 Показати</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="card" th:if="${appointments != null}">
+        <table class="table" th:if="${not #lists.isEmpty(appointments)}">
+            <thead>
+            <tr>
+                <th>Час</th>
+                <th>Пацієнт</th>
+                <th>Тривалість</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="apt : ${appointments}">
+                <td th:text="${#temporals.format(apt.startTime,'HH:mm')}">—</td>
+                <td>
+                    <a th:href="@{/patients/{id}(id=${apt.patient.id})}"
+                       th:text="${apt.patient.fullName}">—</a>
+                </td>
+                <td th:text="${apt.duration} + ' хв'">—</td>
+                <td>
+            <span class="status-badge"
+                  th:classappend="${apt.status.name()}"
+                  th:text="${apt.status}">—</span>
+                </td>
+                <td class="actions" th:if="${apt.status.name() == 'SCHEDULED'}">
+                    <form th:action="@{/appointments/{id}/complete(id=${apt.id})}"
+                          method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-success">✓ Завершено</button>
+                    </form>
+                    <form th:action="@{/appointments/{id}/cancel(id=${apt.id})}"
+                          method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Скасувати запис?')">✗ Скасувати</button>
+                    </form>
+                </td>
+                <td th:unless="${apt.status.name() == 'SCHEDULED'}">—</td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${#lists.isEmpty(appointments)}" class="text-muted p-3">
+            На обраний день записів немає.
+        </p>
+    </div>
+</div>
+</body>
+</html>

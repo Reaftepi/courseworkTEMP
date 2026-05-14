@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html th:fragment="layout(content)"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle} + ' | ClinicApp'">ClinicApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- ====== НАВІГАЦІЯ ====== -->
+<nav class="navbar">
+    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
+        <a th:href="@{/patients}"        class="nav-link">Пацієнти</a>
+        <a th:href="@{/appointments}"    class="nav-link">Розклад</a>
+        <!-- ВИПРАВЛЕНО: Медична картка — тільки лікар -->
+        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
+        <!-- Персонал — тільки адмін -->
+        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')">Персонал</a>
+        <!-- Сповіщення з лічильником -->
+        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
+            <span>🔔</span>
+            <span>Сповіщення</span>
+            <span class="badge"
+                  th:text="${unreadNotifications}"
+                  th:classappend="${unreadNotifications == 0 ? 'hidden' : ''}"></span>
+        </a>
+    </div>
+    <!-- Ім'я користувача + вихід -->
+    <div class="nav-user">
+        <span sec:authentication="name" class="nav-username"></span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="btn-logout">Вийти</button>
+        </form>
+    </div>
+</nav>
+
+<!-- ====== FLASH-ПОВІДОМЛЕННЯ ====== -->
+<div class="container">
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}"   class="alert alert-error"   th:text="${errorMessage}"></div>
+
+    <!-- ====== ВМІСТ СТОРІНКИ ====== -->
+    <div th:replace="${content}">Завантаження...</div>
+</div>
+
+</body>
+</html>

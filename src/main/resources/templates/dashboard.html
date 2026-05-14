@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+
+<th:block th:fragment="main-content">
+
+  <h2 class="page-title">Дашборд</h2>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👤</div>
+      <div class="stat-value" th:text="${totalPatients}">0</div>
+      <div class="stat-label">Пацієнтів</div>
+      <a th:href="@{/patients}" class="stat-link">Переглянути →</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-value" th:text="${totalAppointments}">0</div>
+      <div class="stat-label">Всього записів</div>
+      <a th:href="@{/appointments}" class="stat-link">Переглянути →</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔔</div>
+      <div class="stat-value" th:text="${unreadNotifications}">0</div>
+      <div class="stat-label">Непрочитаних сповіщень</div>
+      <a th:href="@{/notifications}" class="stat-link">Переглянути →</a>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h3>Останні прийоми</h3>
+      <a th:href="@{/appointments/new}" class="btn btn-primary">+ Новий запис</a>
+    </div>
+    <table class="table" th:if="${not #lists.isEmpty(recentAppointments)}">
+      <thead>
+      <tr>
+        <th>Пацієнт</th>
+        <th>Лікар</th>
+        <th>Дата та час</th>
+        <th>Тривалість</th>
+        <th>Статус</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="apt : ${recentAppointments}">
+        <td th:text="${apt.patient.fullName}">—</td>
+        <td th:text="${apt.staff.fullName}">—</td>
+        <td th:text="${#temporals.format(apt.startTime,'dd.MM.yyyy HH:mm')}">—</td>
+        <td th:text="${apt.duration} + ' хв'">—</td>
+        <td>
+            <span class="status-badge"
+                  th:classappend="${apt.status.name()}"
+                  th:text="${apt.status}">—</span>
+        </td>
+        <td>
+          <form th:action="@{/appointments/{id}/complete(id=${apt.id})}"
+                method="post" class="form-inline"
+                th:if="${apt.status.name() == 'SCHEDULED'}">
+            <button type="submit" class="btn btn-sm btn-success">✓ Завершено</button>
+          </form>
+          <form th:action="@{/appointments/{id}/cancel(id=${apt.id})}"
+                method="post" class="form-inline"
+                th:if="${apt.status.name() == 'SCHEDULED'}">
+            <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Скасувати прийом?')">✗ Скасувати</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(recentAppointments)}" class="text-muted p-3">
+      Записів поки немає.
+    </p>
+  </div>
+
+</th:block>
+
+</body>
+</html>

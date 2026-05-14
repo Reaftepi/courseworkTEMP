@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Пацієнти | ClinicApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- ====== НАВІГАЦІЯ (ВИПРАВЛЕНА ВЕРСІЯ) ====== -->
+<nav class="navbar">
+    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
+        <a th:href="@{/patients}"        class="nav-link active">Пацієнти</a>
+        <a th:href="@{/appointments}"    class="nav-link">Розклад</a>
+        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
+        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')">Персонал</a>
+        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
+            <span>🔔</span>
+            <span>Сповіщення</span>
+            <span class="badge"
+                  th:text="${unreadNotifications}"
+                  th:classappend="${unreadNotifications == 0 ? 'hidden' : ''}"></span>
+        </a>
+    </div>
+    <div class="nav-user">
+        <span sec:authentication="name" class="nav-username"></span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="btn-logout">Вийти</button>
+        </form>
+    </div>
+</nav>
+
+<!-- ====== ВМІСТ СТОРІНКИ ====== -->
+<div class="container">
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <div class="page-header">
+        <h2 class="page-title">Пацієнти</h2>
+        <a th:href="@{/patients/new}" class="btn btn-primary">+ Додати пацієнта</a>
+    </div>
+
+    <!-- Пошук -->
+    <form th:action="@{/patients}" method="get" class="search-bar">
+        <input type="text" name="query" th:value="${query}"
+               placeholder="Пошук за ПІБ..." class="search-input"/>
+        <button type="submit" class="btn btn-secondary">🔍 Шукати</button>
+        <a th:href="@{/patients}" class="btn btn-link">Скинути</a>
+    </form>
+
+    <!-- Таблиця пацієнтів -->
+    <div class="card">
+        <table class="table" th:if="${not #lists.isEmpty(patients)}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>ПІБ</th>
+                <th>Стать</th>
+                <th>Статус</th>
+                <th>Дата звернення</th>
+                <th>Дії</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${patients}">
+                <td th:text="${p.id}">—</td>
+                <td>
+                    <a th:href="@{/patients/{id}(id=${p.id})}" th:text="${p.fullName}">—</a>
+                </td>
+                <td th:text="${p.sex}">—</td>
+                <td th:text="${p.status}">—</td>
+                <td th:text="${p.dateOfArrival != null ? #temporals.format(p.dateOfArrival,'dd.MM.yyyy') : '—'}">—</td>
+                <td class="actions">
+                    <a th:href="@{/patients/{id}(id=${p.id})}" class="btn btn-sm btn-secondary">👁</a>
+                    <a th:href="@{/patients/{id}/edit(id=${p.id})}" class="btn btn-sm btn-warning">✏️</a>
+                    <span sec:authorize="hasRole('DOCTOR')">
+                        <a th:href="@{/medical/patient/{id}(id=${p.id})}" class="btn btn-sm btn-info">📋</a>
+                    </span>
+                    <a th:href="@{/appointments/new(patientId=${p.id})}" class="btn btn-sm btn-primary">+ Запис</a>
+                    <form th:action="@{/patients/{id}/delete(id=${p.id})}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити пацієнта?')">🗑</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${#lists.isEmpty(patients)}" class="text-muted p-3">
+            Пацієнтів не знайдено.
+        </p>
+    </div>
+</div>
+</body>
+</html>
