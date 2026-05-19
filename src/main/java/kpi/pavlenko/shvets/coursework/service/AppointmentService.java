@@ -6,7 +6,6 @@ import kpi.pavlenko.shvets.coursework.repository.AppointmentRepository;
 import kpi.pavlenko.shvets.coursework.repository.InvoiceRepository;
 import kpi.pavlenko.shvets.coursework.repository.PatientRepository;
 import kpi.pavlenko.shvets.coursework.repository.StaffRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +17,19 @@ import java.util.List;
 @Service
 @Transactional
 public class AppointmentService {
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    @Autowired
-    private InvoiceRepository invoiceRepository;
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private StaffRepository staffRepository;
-    @Autowired
-    private AppointmentEventPublisher appointmentEventPublisher;
+    private final AppointmentRepository appointmentRepository;
+    private final InvoiceRepository invoiceRepository;
+    private final PatientRepository patientRepository;
+    private final StaffRepository staffRepository;
+    private final AppointmentEventPublisher appointmentEventPublisher;
+
+    public AppointmentService(AppointmentRepository appointmentRepository, InvoiceRepository invoiceRepository, PatientRepository patientRepository, StaffRepository staffRepository, AppointmentEventPublisher appointmentEventPublisher) {
+        this.appointmentRepository = appointmentRepository;
+        this.invoiceRepository = invoiceRepository;
+        this.patientRepository = patientRepository;
+        this.staffRepository = staffRepository;
+        this.appointmentEventPublisher = appointmentEventPublisher;
+    }
 
     @Transactional(readOnly = true)
     public List<Appointment> getAllAppointments() {
@@ -66,6 +68,16 @@ public class AppointmentService {
         return false;
     }
 
+    public Appointment save(Appointment appointment) {
+        // Перевірка на конфлікт часу для нових записів
+        if (appointment.getId() == null && hasConflict(appointment.getStaff().getId(), appointment.getStartTime(), appointment.getDuration())) {
+            throw new RuntimeException("Schedule conflict detected.");
+        }
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        // Тут можна додати логіку сповіщень, якщо потрібно
+        return savedAppointment;
+    }
+
     public Appointment create(Long patientId, Long staffId, LocalDateTime startTime, int duration, BigDecimal price) {
         if(hasConflict(staffId, startTime, duration)) {
             throw new RuntimeException("Schedule conflict detected.");
@@ -95,37 +107,46 @@ public class AppointmentService {
         return apt;
     }
 
-        public void cancel(Long appointmentId) {
-            Appointment apt = appointmentRepository.findById(appointmentId)
-                    .orElseThrow(() -> new RuntimeException("Appointment not found."));
-            apt.setStatus(AppStatus.CANCELLED);
-            appointmentRepository.save(apt);
-            appointmentEventPublisher.onAppointmentCancelled(apt);
-        }
+    public Appointment cancel(Long appointmentId) {
+        Appointment apt = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found."));
+        apt.setStatus(AppStatus.CANCELLED);
+        appointmentEventPublisher.onAppointmentCancelled(apt);
+        return appointmentRepository.save(apt);
+    }
 
-        public void completed(Long appointmentId){
-            Appointment apt = appointmentRepository.findById(appointmentId)
-                    .orElseThrow(() -> new RuntimeException("Appointment not found."));
-            apt.setStatus(AppStatus.COMPLETED);
-            appointmentRepository.save(apt);
-        }
+    public Appointment completed(Long appointmentId){
+        Appointment apt = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found."));
+        apt.setStatus(AppStatus.COMPLETED);
+        return appointmentRepository.save(apt);
+    }
 
-        public void reschedule(Long appointmentId, LocalDateTime newStartTime) {
-            Appointment apt = appointmentRepository.findById(appointmentId)
-                    .orElseThrow(() -> new RuntimeException("Appointment not found."));
-            if (apt.getStatus() == AppStatus.CANCELLED) {
-                throw new RuntimeException("Cannot reschedule a cancelled appointment.");
-            }
-            if (hasConflict(apt.getStaff().getId(), newStartTime, apt.getDuration())) {
-                throw new RuntimeException("Schedule conflict detected.");
-            }
-            apt.setStartTime(newStartTime);
-            appointmentRepository.save(apt);
-            appointmentEventPublisher.onScheduleChanged(apt);
+    public void reschedule(Long appointmentId, LocalDateTime newStartTime) {
+        Appointment apt = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found."));
+        if (apt.getStatus() == AppStatus.CANCELLED) {
+            throw new RuntimeException("Cannot reschedule a cancelled appointment.");
         }
+        if (hasConflict(apt.getStaff().getId(), newStartTime, apt.getDuration())) {
+            throw new RuntimeException("Schedule conflict detected.");
+        }
+        apt.setStartTime(newStartTime);
+        appointmentRepository.save(apt);
+        appointmentEventPublisher.onScheduleChanged(apt);
+    }
 
-        public List<Appointment> getAllForDay(LocalDate date){
+    public List<Appointment> getAllForDay(LocalDate date){
         return appointmentRepository.findAllByDay(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Appointment> findAppointmentsByFilter(Long staffId, LocalDate date) {
+        if (staffId != null && staffId > 0) {
+            return getScheduleForDay(staffId, date);
+        } else {
+            return getAllForDay(date);
         }
+    }
 
 }

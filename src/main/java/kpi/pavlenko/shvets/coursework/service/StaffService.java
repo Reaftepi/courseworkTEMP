@@ -5,7 +5,6 @@ import kpi.pavlenko.shvets.coursework.entity.Staff;
 import kpi.pavlenko.shvets.coursework.entity.User;
 import kpi.pavlenko.shvets.coursework.repository.StaffRepository;
 import kpi.pavlenko.shvets.coursework.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +15,15 @@ import java.util.List;
 @Service
 @Transactional
 public class StaffService {
-    @Autowired private StaffRepository staffRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private BCryptPasswordEncoder passwordEncoder;
+    private final StaffRepository staffRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public StaffService(StaffRepository staffRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.staffRepository = staffRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional(readOnly = true)
     public List<Staff> getAllStaff() {
@@ -33,6 +38,12 @@ public class StaffService {
     @Transactional(readOnly = true)
     public List<Staff> findDoctors(){
         return staffRepository.findByIsMedicalTrue();
+    }
+
+    @Transactional(readOnly = true)
+    public Staff findByUsername(String username) {
+        User user = userRepository.findByLogin(username).orElseThrow(() -> new RuntimeException("User not found for login: " + username));
+        return staffRepository.findByUserId(user.getId()).orElseThrow(() -> new RuntimeException("Staff not found for user: " + username));
     }
 
     public Staff create(String login, String password, Role role, String firstName, String lastName, String position, boolean isMedical){

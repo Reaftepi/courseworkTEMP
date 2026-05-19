@@ -1,100 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Пацієнт | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/patients}" class="nav-link active">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link">🔔</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
+
+    <h2 class="page-title" th:text="${patient.id == null ? 'Новий пацієнт' : 'Редагувати пацієнта'}">Форма пацієнта</h2>
+
+    <form th:object="${patient}"
+          th:action="${patient.id == null} ? @{/patients/new} : @{/patients/{id}/edit(id=${patient.id})}"
+          method="post" class="card form-card form">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstName">Ім'я</label>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Прізвище</label>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="birthday">Дата народження</label>
+                <input type="date" id="birthday" th:field="*{birthday}">
+            </div>
+            <div class="form-group">
+                <label for="sex">Стать</label>
+                <select id="sex" th:field="*{sex}" required>
+                    <option value="Чоловіча">Чоловіча</option>
+                    <option value="Жіноча">Жіноча</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Номер телефону</label>
+            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}">
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="height">Зріст (см)</label>
+                <input type="number" id="height" th:field="*{height}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="weight">Вага (кг)</label>
+                <input type="number" id="weight" th:field="*{weight}" step="0.1">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Статус</label>
+            <select id="status" th:field="*{status}" class="form-control">
+                <option value="">-- Оберіть статус --</option>
+                <option value="Амбулаторний">Амбулаторний</option>
+                <option value="Денний стаціонар">Денний стаціонар</option>
+                <option value="Стаціонарний">Стаціонарний</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="behavior">Поведінка</label>
+            <textarea id="behavior" th:field="*{behavior}" rows="3"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Зберегти</button>
+            <a th:href="@{/patients}" class="btn btn-secondary">Скасувати</a>
+        </div>
     </form>
-  </div>
-</nav>
-<div class="container">
-  <div class="card form-card">
-    <h2 class="card-title"
-        th:text="${patient.id != null} ? 'Редагування пацієнта' : 'Новий пацієнт'">
-      Форма пацієнта
-    </h2>
-
-    <!-- Якщо id є — редагуємо, якщо нема — створюємо -->
-    <form th:action="${patient.id != null}
-                      ? @{/patients/{id}/edit(id=${patient.id})}
-                      : @{/patients/new}"
-          method="post" class="form">
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Ім'я *</label>
-          <input type="text" name="firstName" th:value="${patient.firstName}"
-                 required placeholder="Ім'я"/>
-        </div>
-        <div class="form-group">
-          <label>Прізвище *</label>
-          <input type="text" name="lastName" th:value="${patient.lastName}"
-                 required placeholder="Прізвище"/>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Стать</label>
-          <select name="sex">
-            <option value="">— оберіть —</option>
-            <option value="Ч" th:selected="${patient.sex == 'Ч'}">Чоловіча</option>
-            <option value="Ж" th:selected="${patient.sex == 'Ж'}">Жіноча</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Статус</label>
-          <select name="status">
-            <option value="">— оберіть —</option>
-            <option value="Амбулаторний"  th:selected="${patient.status == 'Амбулаторний'}">Амбулаторний</option>
-            <option value="Стаціонарний"  th:selected="${patient.status == 'Стаціонарний'}">Стаціонарний</option>
-            <option value="Денний стаціонар" th:selected="${patient.status == 'Денний стаціонар'}">Денний стаціонар</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Зріст (см)</label>
-          <input type="number" name="height" th:value="${patient.height}" placeholder="170"/>
-        </div>
-        <div class="form-group">
-          <label>Вага (кг)</label>
-          <input type="number" name="weight" th:value="${patient.weight}" placeholder="70"/>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Особливості поведінки</label>
-        <textarea name="behavior" rows="3"
-                  placeholder="Опис поведінкових особливостей..."
-                  th:text="${patient.behavior}"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Дата звернення</label>
-        <input type="date" name="dateOfArrival"
-               th:value="${patient.dateOfArrival}"/>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">💾 Зберегти</button>
-        <a th:href="@{/patients}" class="btn btn-secondary">Скасувати</a>
-      </div>
-    </form>
-  </div>
-</div>
+</th:block>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
+
+    <div class="page-header">
+        <h2 class="page-title" th:text="'Протокол №' + ${protocol.id}">Протокол</h2>
+        <a th:href="@{/medical/patient/{id}(id=${protocol.patient.id})}" class="btn btn-secondary">← До списку протоколів</a>
+    </div>
+
+    <div class="card protocol-card">
+        <div class="protocol-header">
+            <h3 th:text="'Пацієнт: ' + ${protocol.patient.fullName}">Пацієнт</h3>
+            <span class="text-muted" th:text="'Дата: ' + ${#temporals.format(protocol.startDate, 'dd.MM.yyyy')}"></span>
+        </div>
+        <hr>
+        <div class="text-content">
+            <h4>Лікар:</h4>
+            <p th:text="${protocol.staff.fullName}"></p>
+
+            <h4>Результат:</h4>
+            <p th:text="${protocol.result}"></p>
+
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

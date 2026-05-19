@@ -4,7 +4,6 @@ import kpi.pavlenko.shvets.coursework.entity.Notifications;
 import kpi.pavlenko.shvets.coursework.entity.User;
 import kpi.pavlenko.shvets.coursework.repository.NotificationRepository;
 import kpi.pavlenko.shvets.coursework.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +13,13 @@ import java.util.Optional;
 @Service
 @Transactional
 public class NotificationService {
-    @Autowired private NotificationRepository notificationRepository;
-    @Autowired private UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
+    private final UserRepository userRepository;
+
+    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository) {
+        this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
+    }
 
     @Transactional(readOnly = true)
     public List<Notifications> getAllUserNotifications(String login) {

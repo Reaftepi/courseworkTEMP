@@ -1,85 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Персонал | ClinicApp</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
+      xmlns:sec="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
 <body>
-
-<!-- ====== НАВІГАЦІЯ ====== -->
-<nav class="navbar">
-    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-    <div class="nav-links">
-        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
-        <a th:href="@{/patients}"        class="nav-link">Пацієнти</a>
-        <a th:href="@{/appointments}"    class="nav-link">Розклад</a>
-        <!-- ВИПРАВЛЕНО: Тільки для лікаря -->
-        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
-        <a th:href="@{/staff}" class="nav-link active" sec:authorize="hasRole('ADMIN')">Персонал</a>
-        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
-            <span>🔔</span>
-            <span>Сповіщення</span>
-            <span class="badge"
-                  th:text="${unreadNotifications}"
-                  th:classappend="${unreadNotifications == 0 ? 'hidden' : ''}"></span>
-        </a>
-    </div>
-    <div class="nav-user">
-        <span sec:authentication="name" class="nav-username"></span>
-        <form th:action="@{/logout}" method="post" style="display:inline">
-            <button type="submit" class="btn-logout">Вийти</button>
-        </form>
-    </div>
-</nav>
-
-<div class="container">
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}"   class="alert alert-error"   th:text="${errorMessage}"></div>
+<th:block th:fragment="main-content">
 
     <div class="page-header">
-        <h2 class="page-title">👥 Персонал</h2>
+        <h2 class="page-title">Керування персоналом</h2>
         <a th:href="@{/staff/new}" class="btn btn-primary">+ Додати співробітника</a>
     </div>
 
     <div class="card">
-        <table class="table">
+        <table class="table" th:if="${not #lists.isEmpty(staffList)}">
             <thead>
             <tr>
-                <th>#</th>
-                <th>ПІБ</th>
+                <th>Ім'я</th>
                 <th>Посада</th>
-                <th>Роль</th>
                 <th>Логін</th>
-                <th>Медичний</th>
+                <th>Роль</th>
+                <th>Дата прийому</th>
                 <th>Дії</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="s : ${staffList}">
-                <td th:text="${s.id}">—</td>
-                <td th:text="${s.fullName}">—</td>
-                <td th:text="${s.position ?: '—'}">—</td>
-                <td th:text="${s.user.role}">—</td>
-                <td th:text="${s.user.login}">—</td>
-                <td th:text="${s.medical ? 'Так' : 'Ні'}">—</td>
+                <td th:text="${s.fullName}">-</td>
+                <td th:text="${s.position}">-</td>
+                <td th:text="${s.user.login}">-</td>
+                <td th:text="${s.user.role}">-</td>
+                <td th:text="${#temporals.format(s.dateOfEmployment, 'dd.MM.yyyy')}">-</td>
                 <td class="actions">
-                    <form th:action="@{/staff/{id}/block(id=${s.id})}"
-                          method="post" style="display:inline">
-                        <button type="submit" class="btn btn-sm btn-warning"
-                                onclick="return confirm('Заблокувати обліковий запис?')">🔒</button>
-                    </form>
-                    <form th:action="@{/staff/{id}/delete(id=${s.id})}"
-                          method="post" style="display:inline">
+                    <form th:action="@{/staff/{id}/delete(id=${s.id})}" method="post" class="form-inline">
                         <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Видалити співробітника?')">🗑</button>
+                                onclick="return confirm('Видалити співробітника?')">Видалити</button>
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
+        <p th:if="${#lists.isEmpty(staffList)}" class="text-muted p-3">
+            Співробітників не знайдено.
+        </p>
     </div>
-</div>
+
+</th:block>
 </body>
 </html>

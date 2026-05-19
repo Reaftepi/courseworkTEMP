@@ -36,6 +36,11 @@ public class MedicalCardService {
         return protocolRepository.findById(id).orElseThrow(() -> new RuntimeException("Protocol not found."));
     }
 
+    @Transactional(readOnly = true)
+    public Patient getPatientById(Long patientId) {
+        return patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found."));
+    }
+
     public ClinicalProtocol createProtocol(Long patientId, Long staffId) {
         var patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found."));
         var staff = staffRepository.findById(staffId).orElseThrow(() -> new RuntimeException("Staff not found."));
@@ -45,6 +50,10 @@ public class MedicalCardService {
                 .startDate(LocalDate.now())
                 .result("")
                 .build();
+        return protocolRepository.save(protocol);
+    }
+
+    public ClinicalProtocol saveProtocol(ClinicalProtocol protocol) {
         return protocolRepository.save(protocol);
     }
 

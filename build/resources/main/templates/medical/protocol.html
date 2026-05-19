@@ -1,190 +1,264 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Протокол | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/patients}" class="nav-link">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link">🔔</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
-    </form>
-  </div>
-</nav>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
 
-<div class="container">
-  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-
-  <div class="page-header">
-    <h2 class="page-title">
-      Протокол №<span th:text="${protocol.id}"></span>
-      — <span th:text="${protocol.patient.fullName}"></span>
-    </h2>
+    <div class="page-header">
+        <h2 class="page-title">
+            Протокол №<span th:text="${protocol.id}"></span>
+            — <span th:text="${protocol.patient.fullName}"></span>
+        </h2>
     <a th:href="@{/medical/patient/{id}(id=${protocol.patient.id})}"
-       class="btn btn-secondary">← Медкартка</a>
-  </div>
-
-  <!-- Деталі -->
-  <div class="info-grid">
-    <div class="card info-card">
-      <h3>Деталі</h3>
-      <dl class="info-list">
-        <dt>Лікар</dt>
-        <dd th:text="${protocol.staff.fullName}">—</dd>
-        <dt>Дата початку</dt>
-        <dd th:text="${#temporals.format(protocol.startDate,'dd.MM.yyyy')}">—</dd>
-      </dl>
+           class="btn btn-secondary">← Картка пацієнта</a>
     </div>
+
+    <!-- Деталі -->
+    <div class="info-grid">
+        <div class="card info-card">
+            <h3>Деталі</h3>
+            <dl class="info-list">
+                <dt>Лікар</dt>
+                <dd th:text="${protocol.staff.fullName}">—</dd>
+                <dt>Дата початку</dt>
+                <dd th:text="${#temporals.format(protocol.startDate,'dd.MM.yyyy')}">—</dd>
+            </dl>
+        </div>
+    </div>
+
+  <!-- ====== ВСІ ПРОТОКОЛИ ПАЦІЄНТА ====== -->
+  <div class="card mt-3">
+    <div class="card-header">
+      <h3>Всі протоколи пацієнта</h3>
+      <a th:href="@{/medical/patient/{id}/new-protocol(id=${patient.id})}" class="btn btn-primary">+ Новий протокол</a>
+    </div>
+    <table class="table" th:if="${not #lists.isEmpty(allPatientProtocols)}">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Дата створення</th>
+        <th>Лікар</th>
+        <th>Дії</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="p : ${allPatientProtocols}">
+        <td th:text="${p.id}">-</td>
+        <td th:text="${#temporals.format(p.startDate, 'dd.MM.yyyy')}">-</td>
+        <td th:text="${p.staff.fullName}">-</td>
+        <td class="actions">
+          <a th:href="@{/medical/protocol/{id}(id=${p.id})}" class="btn btn-sm btn-secondary">Переглянути</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(allPatientProtocols)}" class="text-muted p-3">
+      Для цього пацієнта ще немає протоколів.
+    </p>
   </div>
 
-  <!-- Результат -->
-  <div class="card mt-3">
-    <h3 class="card-title">📝 Результат / Підсумок лікування</h3>
-    <form th:action="@{/medical/protocol/{id}/result(id=${protocol.id})}" method="post">
-      <div class="form-group" style="padding: 0 20px 16px">
+  <!-- ====== ФОРМА ДЛЯ НОВОГО ПРОТОКОЛУ (якщо потрібно) ====== -->
+  <!-- Цей блок можна використовувати, якщо ви хочете, щоб форма нового протоколу була прямо тут,
+       або ж використовувати окремий шаблон medical/protocol-form.html, як я зробив у MedicalController.
+       Зараз я припускаю, що ви будете використовувати окремий шаблон для форми.
+  -->
+
+    <!-- Результат -->
+    <div class="card mt-3">
+        <h3 class="card-title">Результат / Підсумок лікування</h3>
+        <form th:action="@{/medical/protocol/{id}/result(id=${protocol.id})}" method="post">
+            <div class="form-group" style="padding: 0 20px 16px">
         <textarea name="result" rows="4" placeholder="Введіть підсумок лікування..."
                   th:text="${protocol.result}"></textarea>
-      </div>
-      <div style="padding: 0 20px 16px">
-        <button type="submit" class="btn btn-primary">💾 Зберегти</button>
-      </div>
-    </form>
-  </div>
+            </div>
+            <div style="padding: 0 20px 16px">
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </div>
+        </form>
+    </div>
 
-  <!-- ====== ДІАГНОЗИ ====== -->
-  <div class="card mt-3">
-    <h3 class="card-title">🏥 Діагнози (МКХ-10)</h3>
+    <!-- ====== ДІАГНОЗИ ====== -->
+    <div class="card mt-3">
+        <h3 class="card-title">Діагнози (МКХ-10)</h3>
 
-    <!-- Список існуючих -->
-    <div th:if="${not #lists.isEmpty(protocolDiagnoses)}">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Код</th><th>Назва</th><th>Основний</th><th>Дата</th><th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="dp : ${protocolDiagnoses}">
-          <td th:text="${dp.diagnosis.code}">—</td>
-          <td th:text="${dp.diagnosis.name}">—</td>
-          <td th:text="${dp.main ? 'Так' : 'Ні'}">—</td>
-          <td th:text="${dp.setDate != null ? #temporals.format(dp.setDate,'dd.MM.yyyy') : '—'}">—</td>
-          <td>
-            <form th:action="@{/medical/protocol/{id}/diagnosis/{dpId}/delete(id=${protocol.id},dpId=${dp.id})}"
-                  method="post">
-              <button type="submit" class="btn btn-sm btn-danger"
-                      onclick="return confirm('Видалити діагноз?')">🗑</button>
+        <!-- Список існуючих -->
+        <div th:if="${not #lists.isEmpty(protocolDiagnoses)}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Код</th><th>Назва</th><th>Основний</th><th>Дата</th><th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dp : ${protocolDiagnoses}">
+                    <td th:text="${dp.diagnosis.code}">—</td>
+                    <td th:text="${dp.diagnosis.name}">—</td>
+                    <td th:text="${dp.main ? 'Так' : 'Ні'}">—</td>
+                    <td th:text="${dp.setDate != null ? #temporals.format(dp.setDate,'dd.MM.yyyy') : '—'}">—</td>
+                    <td>
+                        <form th:action="@{/medical/protocol/{id}/diagnosis/{dpId}/delete(id=${protocol.id},dpId=${dp.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Видалити діагноз?')">🗑</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${#lists.isEmpty(protocolDiagnoses)}" class="text-muted p-3">
+            Діагнозів ще немає.
+        </p>
+
+        <!-- Форма додавання діагнозу -->
+        <div style="padding: 0 20px 16px; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px">
+            <strong style="font-size:13px">+ Додати діагноз</strong>
+            <form th:action="@{/medical/protocol/{id}/diagnosis(id=${protocol.id})}"
+                  method="post" style="display:flex; gap:10px; align-items:flex-end; margin-top:10px; flex-wrap:wrap">
+                <div class="form-group" style="flex:2; min-width:200px">
+                    <label>Діагноз (МКХ-10)</label>
+                    <select name="diagnosisId" required>
+                        <option value="">— оберіть —</option>
+                        <option th:each="d : ${allDiagnoses}"
+                                th:value="${d.id}"
+                                th:text="${d.code + ' — ' + d.name}">Діагноз</option>
+                    </select>
+                </div>
+                <div class="form-group" style="align-self:center">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="isMain" value="true"/>
+                        Основний
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Додати</button>
             </form>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <p th:if="${#lists.isEmpty(protocolDiagnoses)}" class="text-muted p-3">
-      Діагнозів ще немає.
-    </p>
-
-    <!-- Форма додавання діагнозу -->
-    <div style="padding: 0 20px 16px; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px">
-      <strong style="font-size:13px">+ Додати діагноз</strong>
-      <form th:action="@{/medical/protocol/{id}/diagnosis(id=${protocol.id})}"
-            method="post" style="display:flex; gap:10px; align-items:flex-end; margin-top:10px; flex-wrap:wrap">
-        <div class="form-group" style="flex:2; min-width:200px">
-          <label>Діагноз (МКХ-10)</label>
-          <select name="diagnosisId" required>
-            <option value="">— оберіть —</option>
-            <option th:each="d : ${allDiagnoses}"
-                    th:value="${d.id}"
-                    th:text="${d.code + ' — ' + d.name}">Діагноз</option>
-          </select>
         </div>
-        <div class="form-group" style="align-self:center">
-          <label class="checkbox-label">
-            <input type="checkbox" name="isMain" value="true"/>
-            Основний
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary">Додати</button>
-      </form>
     </div>
-  </div>
 
-  <!-- ====== ПРИЗНАЧЕННЯ ====== -->
-  <div class="card mt-3">
-    <h3 class="card-title">💊 Призначення</h3>
+    <!-- ====== ПРИЗНАЧЕННЯ ====== -->
+    <div class="card mt-3">
+        <h3 class="card-title">Призначення</h3>
 
-    <!-- Список існуючих -->
-    <div th:if="${not #lists.isEmpty(protocolTherapies)}">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Препарат / Процедура</th><th>Дозування</th>
-          <th>Частота</th><th>Інструкції</th><th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="tp : ${protocolTherapies}">
-          <td th:text="${tp.therapy.name}">—</td>
-          <td th:text="${tp.dosage ?: '—'}">—</td>
-          <td th:text="${tp.frequency ?: '—'}">—</td>
-          <td th:text="${tp.instructions ?: '—'}">—</td>
-          <td>
-            <form th:action="@{/medical/protocol/{id}/therapy/{tpId}/delete(id=${protocol.id},tpId=${tp.id})}"
-                  method="post">
-              <button type="submit" class="btn btn-sm btn-danger"
-                      onclick="return confirm('Видалити призначення?')">🗑</button>
+        <!-- Список існуючих -->
+        <div th:if="${not #lists.isEmpty(protocolTherapies)}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Препарат / Процедура</th><th>Дозування</th>
+                    <th>Частота</th><th>Інструкції</th><th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tp : ${protocolTherapies}">
+                    <td th:text="${tp.therapy.name}">—</td>
+                    <td th:text="${tp.dosage ?: '—'}">—</td>
+                    <td th:text="${tp.frequency ?: '—'}">—</td>
+                    <td th:text="${tp.instructions ?: '—'}">—</td>
+                    <td>
+                        <form th:action="@{/medical/protocol/{id}/therapy/{tpId}/delete(id=${protocol.id},tpId=${tp.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Видалити призначення?')">🗑</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${#lists.isEmpty(protocolTherapies)}" class="text-muted p-3">
+            Призначень ще немає.
+        </p>
+
+        <!-- Форма додавання призначення -->
+        <div style="padding: 0 20px 16px; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px">
+            <strong style="font-size:13px">+ Додати призначення</strong>
+            <form th:action="@{/medical/protocol/{id}/therapy(id=${protocol.id})}"
+                  method="post" style="margin-top:10px">
+                <div class="form-row">
+                    <div class="form-group" style="flex:2">
+                        <label>Препарат / Процедура</label>
+                        <select name="therapyId" required>
+                            <option value="">— оберіть —</option>
+                            <option th:each="t : ${allTherapies}"
+                                    th:value="${t.id}"
+                                    th:text="${t.name}">Терапія</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Дозування</label>
+                        <input type="text" name="dosage" placeholder="напр. 50 мг"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Частота</label>
+                        <input type="text" name="frequency" placeholder="напр. 2 рази на день"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Інструкції</label>
+                    <textarea name="instructions" rows="2"
+                              placeholder="Додаткові інструкції..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Додати призначення</button>
             </form>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <p th:if="${#lists.isEmpty(protocolTherapies)}" class="text-muted p-3">
-      Призначень ще немає.
-    </p>
-
-    <!-- Форма додавання призначення -->
-    <div style="padding: 0 20px 16px; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px">
-      <strong style="font-size:13px">+ Додати призначення</strong>
-      <form th:action="@{/medical/protocol/{id}/therapy(id=${protocol.id})}"
-            method="post" style="margin-top:10px">
-        <div class="form-row">
-          <div class="form-group" style="flex:2">
-            <label>Препарат / Процедура</label>
-            <select name="therapyId" required>
-              <option value="">— оберіть —</option>
-              <option th:each="t : ${allTherapies}"
-                      th:value="${t.id}"
-                      th:text="${t.name}">Терапія</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Дозування</label>
-            <input type="text" name="dosage" placeholder="напр. 50 мг"/>
-          </div>
-          <div class="form-group">
-            <label>Частота</label>
-            <input type="text" name="frequency" placeholder="напр. 2 рази на день"/>
-          </div>
         </div>
-        <div class="form-group">
-          <label>Інструкції</label>
-          <textarea name="instructions" rows="2"
-                    placeholder="Додаткові інструкції..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Додати призначення</button>
-      </form>
-    </div>
-  </div>
 
-</div>
+        <div class="card mt-3">
+            <h3 class="card-title">📎 Документи та зображення</h3>
+
+            <div th:if="${not #lists.isEmpty(documents)}" style="padding: 0 20px">
+                <div th:each="doc : ${documents}" class="document-item">
+
+                    <div th:if="${doc.image}" class="doc-preview">
+                        <a th:href="@{/medical/protocol/{pid}/documents/{did}(pid=${protocol.id},did=${doc.id})}"
+                           target="_blank">
+                            <img th:src="@{/medical/protocol/{pid}/documents/{did}(pid=${protocol.id},did=${doc.id})}"
+                                 th:alt="${doc.originalName}"
+                                 class="doc-thumbnail"/>
+                        </a>
+                    </div>
+
+                    <div th:unless="${doc.image}" class="doc-icon">
+                        <a th:href="@{/medical/protocol/{pid}/documents/{did}(pid=${protocol.id},did=${doc.id})}"
+                           target="_blank" class="doc-link">
+                            📄 <span th:text="${doc.originalName}">файл</span>
+                        </a>
+                    </div>
+
+                    <div class="doc-info">
+                        <span class="doc-name" th:text="${doc.originalName}">ім'я файлу</span>
+                        <span class="doc-meta text-muted"
+                              th:text="${#temporals.format(doc.uploadedAt,'dd.MM.yyyy HH:mm')}">
+        </span>
+                    </div>
+
+                    <form th:action="@{/medical/protocol/{pid}/documents/{did}/delete(pid=${protocol.id},did=${doc.id})}"
+                          method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити файл?')">🗑</button>
+                    </form>
+                </div>
+            </div>
+
+            <p th:if="${#lists.isEmpty(documents)}" class="text-muted p-3">
+                Документів ще немає.
+            </p>
+
+            <div style="padding: 16px 20px; border-top: 1px solid var(--border)">
+                <strong style="font-size:13px">+ Завантажити файл</strong>
+                <form th:action="@{/medical/protocol/{id}/documents(id=${protocol.id})}"
+                      method="post" enctype="multipart/form-data"
+                      style="display:flex; gap:10px; align-items:flex-end; margin-top:10px">
+                    <div class="form-group" style="flex:1">
+                        <label>Файл (зображення або PDF)</label>
+                        <input type="file" name="file" accept="image/*,application/pdf" required/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">📎 Завантажити</button>
+                </form>
+                <small class="text-muted">Дозволені формати: JPG, PNG, GIF, PDF</small>
+            </div>
+        </div>
+
+    </div>
+</th:block>
 </body>
 </html>

@@ -1,66 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Сповіщення | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/dashboard}"    class="nav-link">Дашборд</a>
-    <a th:href="@{/patients}"     class="nav-link">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link active">🔔 Сповіщення</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
-    </form>
-  </div>
-</nav>
-<div class="container">
-  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
 
-  <div class="page-header">
-    <h2 class="page-title">🔔 Сповіщення</h2>
-    <form th:action="@{/notifications/read-all}" method="post">
-      <button type="submit" class="btn btn-secondary">✓ Прочитати всі</button>
-    </form>
-  </div>
+    <h2 class="page-title">Сповіщення</h2>
 
-  <div class="card">
-    <div th:if="${not #lists.isEmpty(notifications)}">
-      <div th:each="n : ${notifications}"
-           class="notification-item"
-           th:classappend="${n.read ? 'read' : 'unread'}">
-        <div class="notification-body">
-          <!-- Іконка типу -->
-          <span th:switch="${n.type}">
-            <span th:case="'REMINDER'">⏰</span>
-            <span th:case="'SCHEDULE_CHANGE'">📅</span>
-            <span th:case="'UNPAID_INVOICE'">💰</span>
-            <span th:case="*">🔔</span>
-          </span>
-          <div class="notification-text">
-            <p th:text="${n.message}" class="notification-msg">—</p>
-            <small class="text-muted"
-                   th:text="${#temporals.format(n.createdAt,'dd.MM.yyyy HH:mm')}">—</small>
-          </div>
+    <div class="card">
+        <div th:if="${not #lists.isEmpty(notifications)}">
+            <div th:each="n : ${notifications}"
+                 class="notification-item"
+                 th:classappend="${n.read ? 'read' : 'unread'}">
+
+                <div class="notification-text">
+                    <span class="notification-msg" th:text="${n.message}"></span>
+                    <small class="text-muted" th:text="${#temporals.format(n.createdAt, 'dd.MM.yyyy HH:mm')}"></small>
+                </div>
+                <div class="notification-actions" th:if="${not n.read}">
+                    <form th:action="@{/notifications/{id}/read(id=${n.id})}" method="post" class="form-inline">
+                        <button type="submit" class="btn btn-sm btn-success" title="Позначити як прочитане">✓</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <!-- Позначити прочитаним -->
-        <form th:unless="${n.read}"
-              th:action="@{/notifications/{id}/read(id=${n.id})}"
-              method="post">
-          <button type="submit" class="btn btn-sm btn-link">✓</button>
-        </form>
-      </div>
+
+        <p th:if="${#lists.isEmpty(notifications)}" class="text-muted p-3">
+            У вас немає сповіщень.
+        </p>
     </div>
-    <p th:if="${#lists.isEmpty(notifications)}" class="text-muted p-3">
-      Сповіщень немає.
-    </p>
-  </div>
-</div>
+
+</th:block>
 </body>
 </html>

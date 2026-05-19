@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
+    <div class="page-header">
+        <h2 class="page-title">Медичні картки</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Список пацієнтів</h3>
+        </div>
+        <table class="table" th:if="${not #lists.isEmpty(patients)}">
+            <thead>
+            <tr>
+                <th>Ім'я</th>
+                <th>Дата народження</th>
+                <th>Стать</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patient : ${patients}">
+                <td th:text="${patient.fullName}">—</td>
+                <td th:text="${patient.birthday != null ? #temporals.format(patient.birthday, 'dd.MM.yyyy') : '—'}">—</td>
+                <td th:text="${patient.sex}">—</td>
+                <td class="actions">
+                    <a th:href="@{/medical/patient/{id}(id=${patient.id})}" class="btn btn-sm btn-secondary">Переглянути картку</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${#lists.isEmpty(patients)}" class="text-muted p-3">
+            Пацієнтів не знайдено.
+        </p>
+    </div>
+</th:block>
+</body>
+</html>

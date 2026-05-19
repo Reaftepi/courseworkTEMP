@@ -1,73 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Розклад | ClinicApp</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
 <body>
 
-<!-- ====== НАВІГАЦІЯ (ПОВНІСТЮ ВИПРАВЛЕНА) ====== -->
-<nav class="navbar">
-    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-    <div class="nav-links">
-        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
-        <a th:href="@{/patients}"        class="nav-link">Пацієнти</a>
-        <a th:href="@{/appointments}"    class="nav-link active">Розклад</a>
-        <!-- ВИПРАВЛЕНО: Тільки для лікаря -->
-        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
-        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')">Персонал</a>
-        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
-            <span>🔔</span>
-            <span>Сповіщення</span>
-            <span class="badge"
-                  th:text="${unreadNotifications}"
-                  th:classappend="${unreadNotifications == 0 ? 'hidden' : ''}"></span>
-        </a>
-    </div>
-    <div class="nav-user">
-        <span sec:authentication="name" class="nav-username"></span>
-        <form th:action="@{/logout}" method="post" style="display:inline">
-            <button type="submit" class="btn-logout">Вийти</button>
-        </form>
-    </div>
-</nav>
-
-<div class="container">
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}"   class="alert alert-error"   th:text="${errorMessage}"></div>
-
+<th:block th:fragment="main-content">
     <div class="page-header">
-        <h2 class="page-title">📅 Розклад прийомів</h2>
+        <h2 class="page-title">Розклад прийомів</h2>
         <a th:href="@{/appointments/new}" class="btn btn-primary">+ Новий запис</a>
     </div>
 
-    <!-- Фільтр та таблиця без змін -->
-    <form th:action="@{/appointments}" method="get" class="filter-bar card">
-        <div class="form-row">
-            <div class="form-group">
-                <label>Лікар</label>
-                <select name="staffId">
-                    <option value="">— всі лікарі —</option>
-                    <option th:each="doc : ${doctors}"
-                            th:value="${doc.id}"
-                            th:text="${doc.fullName}"
-                            th:selected="${doc.id == selectedStaffId}">Лікар</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Дата</label>
-                <input type="date" name="date"
-                       th:value="${#temporals.format(selectedDate,'yyyy-MM-dd')}"/>
-            </div>
-            <div class="form-group" style="align-self:flex-end">
-                <button type="submit" class="btn btn-secondary">🔍 Показати</button>
-            </div>
-        </div>
-    </form>
+    <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
-    <div class="card" th:if="${appointments != null}">
+    <div class="card mt-3">
+        <div class="card-header">
+            <h3 th:if="${showAll}">Всі заплановані прийоми</h3>
+            <h3 th:unless="${showAll}">Прийоми на <span th:text="${#temporals.format(selectedDate, 'dd.MM.yyyy')}"></span></h3>
+
+            <!-- Форма фільтрації -->
+            <form th:action="@{/appointments}" method="get" class="filter-form">
+                <div class="form-group">
+                    <label for="staff">Лікар:</label>
+                    <select id="staff" name="staffId" class="form-control">
+                        <option value="">— всі лікарі —</option>
+                        <option th:each="doc : ${doctors}"
+                                th:value="${doc.id}"
+                                th:text="${doc.fullName}"
+                                th:selected="${doc.id == selectedStaffId}">Лікар</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Дата:</label>
+                    <!-- selectedDate буде null, якщо showAll=true, що нормально для input type="date" -->
+                    <input type="date" id="date" name="date" class="form-control" th:value="${selectedDate}">
+                </div>
+                <div class="filter-actions"> <!-- Новий контейнер для кнопок -->
+                    <button type="submit" class="btn btn-primary">Показати</button>
+                    <a th:href="@{/appointments(showAll=true)}" class="btn btn-secondary">Показати всі прийоми</a>
+                </div>
+            </form>
+        </div>
         <table class="table" th:if="${not #lists.isEmpty(appointments)}">
             <thead>
             <tr>
@@ -93,11 +65,11 @@
                 </td>
                 <td class="actions" th:if="${apt.status.name() == 'SCHEDULED'}">
                     <form th:action="@{/appointments/{id}/complete(id=${apt.id})}"
-                          method="post" style="display:inline">
+                          method="post" class="form-inline">
                         <button type="submit" class="btn btn-sm btn-success">✓ Завершено</button>
                     </form>
                     <form th:action="@{/appointments/{id}/cancel(id=${apt.id})}"
-                          method="post" style="display:inline">
+                          method="post" class="form-inline">
                         <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Скасувати запис?')">✗ Скасувати</button>
                     </form>
@@ -106,10 +78,13 @@
             </tr>
             </tbody>
         </table>
-        <p th:if="${#lists.isEmpty(appointments)}" class="text-muted p-3">
+        <p th:if="${#lists.isEmpty(appointments) and not showAll}" class="text-muted p-3">
             На обраний день записів немає.
         </p>
+        <p th:if="${#lists.isEmpty(appointments) and showAll}" class="text-muted p-3">
+            Запланованих прийомів немає.
+        </p>
     </div>
-</div>
+</th:block>
 </body>
 </html>

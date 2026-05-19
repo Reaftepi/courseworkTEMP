@@ -1,12 +1,10 @@
 package kpi.pavlenko.shvets.coursework.controller;
 
-import kpi.pavlenko.shvets.coursework.repository.StaffRepository;
-import kpi.pavlenko.shvets.coursework.service.AppointmentService;
-import kpi.pavlenko.shvets.coursework.service.MedicalCardService;
+import kpi.pavlenko.shvets.coursework.entity.ClinicalProtocol;
+import kpi.pavlenko.shvets.coursework.entity.Patient;
+import kpi.pavlenko.shvets.coursework.service.ClinicalProtocolService;
 import kpi.pavlenko.shvets.coursework.service.PatientService;
 import kpi.pavlenko.shvets.coursework.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize; // Новий імпорт
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,104 +12,73 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+
 @Controller
-@RequestMapping("/medical")
-@PreAuthorize("hasRole('DOCTOR')") // Захист на рівні бекенду
+@RequestMapping("/medical-card")
 public class MedicalCardController {
-    @Autowired private MedicalCardService medicalCardService;
-    @Autowired private PatientService patientService;
-    @Autowired private AppointmentService appointmentService;
-    @Autowired private StaffService staffService;
-    @Autowired private StaffRepository staffRepository;
+
+    private final PatientService patientService;
+    private final ClinicalProtocolService protocolService;
+    private final StaffService staffService;
+
+    public MedicalCardController(PatientService patientService, ClinicalProtocolService protocolService, StaffService staffService) {
+        this.patientService = patientService;
+        this.protocolService = protocolService;
+        this.staffService = staffService;
+    }
 
     @GetMapping("/patient/{patientId}")
-    public String patientCard(@PathVariable Long patientId, Model model){
-        model.addAttribute("patient", patientService.findById(patientId));
-        model.addAttribute("protocols", medicalCardService.getProtocolsForPatient(patientId));
-        model.addAttribute("doctors", staffService.findDoctors());
-        return "medical/card";
+    public String viewMedicalCard(@PathVariable Long patientId, Model model) {
+        Patient patient = patientService.findById(patientId);
+        model.addAttribute("patient", patient);
+        model.addAttribute("protocols", protocolService.findByPatient(patientId));
+        model.addAttribute("pageTitle", "Медкартка: " + patient.getFullName());
+        return "medical-card/view";
     }
 
-    @GetMapping("/protocol/{id}")
-    public String protocolView(@PathVariable Long id, Model model){
-        model.addAttribute("protocol", medicalCardService.getProtocol(id));
-        model.addAttribute("protocolDiagnoses", medicalCardService.getDiagnosesForProtocol(id));
-        model.addAttribute("protocolTherapies", medicalCardService.getTherapiesForProtocol(id));
-        model.addAttribute("allDiagnoses", medicalCardService.getAllDiagnoses());
-        model.addAttribute("allTherapies", medicalCardService.getAllTherapies());
-        return "medical/protocol";
+    @GetMapping("/patient/{patientId}/new-protocol")
+    public String newProtocolForm(@PathVariable Long patientId, Model model) {
+        Patient patient = patientService.findById(patientId);
+        ClinicalProtocol protocol = new ClinicalProtocol();
+        protocol.setPatient(patient);
+        model.addAttribute("protocol", protocol);
+        model.addAttribute("pageTitle", "Новий протокол для: " + patient.getFullName());
+        return "medical-card/protocol-form";
     }
 
-    @PostMapping("/patient/{patientId}/protocol/new")
-    public String createProtocol(@PathVariable Long patientId,
-                                 @RequestParam Long staffId,
-                                 RedirectAttributes flash) {
-        medicalCardService.createProtocol(patientId, staffId);
-        flash.addFlashAttribute("success", "Protocol created successfully");
-        return "redirect:/medical/patient/" + patientId;
+    @PostMapping("/patient/{patientId}/new-protocol")
+    public String createProtocol(@PathVariable Long patientId, @ModelAttribute ClinicalProtocol protocol, @AuthenticationPrincipal UserDetails currentUser, RedirectAttributes flash) {
+        protocol.setPatient(patientService.findById(patientId));
+        protocol.setStaff(staffService.findByUsername(currentUser.getUsername()));
+        protocol.setStartDate(LocalDate.now());
+        ClinicalProtocol savedProtocol = protocolService.save(protocol);
+        flash.addFlashAttribute("successMessage", "Протокол успішно створено.");
+        return "redirect:/medical-card/protocol/" + savedProtocol.getId();
     }
 
-    @PostMapping("/protocol/{id}/result")
-    public String saveResult(@PathVariable Long id,
-                             @RequestParam String result,
-                             RedirectAttributes flash){
-        medicalCardService.updateProtocol(id, result);
-        flash.addFlashAttribute("success", "Protocol updated successfully");
-        return "redirect:/medical/protocol/" + id;
+    @GetMapping("/protocol/{protocolId}")
+    public String viewProtocol(@PathVariable Long protocolId, Model model) {
+        ClinicalProtocol protocol = protocolService.findById(protocolId);
+        model.addAttribute("protocol", protocol);
+        model.addAttribute("pageTitle", "Протокол №" + protocol.getId());
+        return "medical-card/protocol-view";
     }
 
-    @PostMapping("/protocol/{appointmentId}/note")
-    public String addNote(@PathVariable Long appointmentId,
-                          @RequestParam String content,
-                          @AuthenticationPrincipal UserDetails currentUser,
-                          RedirectAttributes flash){
-        var userStaff = staffRepository.findAll().stream()
-                .filter(s -> s.getUser().getLogin().equals(currentUser.getUsername()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Staff not found for user " + currentUser.getUsername()));
-        medicalCardService.addNote(appointmentId, userStaff.getId(), content);
-        flash.addFlashAttribute("success", "Note added successfully");
-        var apt = appointmentService.findById(appointmentId);
-        return "redirect:/medical/patient/" + apt.getPatient().getId();
+    @GetMapping("/protocol/{protocolId}/edit")
+    public String editProtocolForm(@PathVariable Long protocolId, Model model) {
+        ClinicalProtocol protocol = protocolService.findById(protocolId);
+        model.addAttribute("protocol", protocol);
+        model.addAttribute("pageTitle", "Редагування протоколу №" + protocol.getId());
+        return "medical-card/protocol-form";
     }
 
-    @PostMapping("/protocol/{id}/diagnosis")
-    public String addDiagnosis(@PathVariable Long id,
-                               @RequestParam Long diagnosisId,
-                               @RequestParam(defaultValue = "false") boolean isMain,
-                               RedirectAttributes flash) {
-        medicalCardService.addDiagnosis(id, diagnosisId, isMain);
-        flash.addFlashAttribute("success", "Діагноз додано.");
-        return "redirect:/medical/protocol/" + id;
-    }
-
-    @PostMapping("/protocol/{id}/diagnosis/{dpId}/delete")
-    public String removeDiagnosis(@PathVariable Long id,
-                                  @PathVariable Long dpId,
-                                  RedirectAttributes flash) {
-        medicalCardService.removeDiagnosis(dpId);
-        flash.addFlashAttribute("success", "Діагноз видалено.");
-        return "redirect:/medical/protocol/" + id;
-    }
-
-    @PostMapping("/protocol/{id}/therapy")
-    public String addTherapy(@PathVariable Long id,
-                             @RequestParam Long therapyId,
-                             @RequestParam(required = false) String dosage,
-                             @RequestParam(required = false) String frequency,
-                             @RequestParam(required = false) String instructions,
-                             RedirectAttributes flash) {
-        medicalCardService.addTherapy(id, therapyId, dosage, frequency, instructions);
-        flash.addFlashAttribute("success", "Призначення додано.");
-        return "redirect:/medical/protocol/" + id;
-    }
-
-    @PostMapping("/protocol/{id}/therapy/{tpId}/delete")
-    public String removeTherapy(@PathVariable Long id,
-                                @PathVariable Long tpId,
-                                RedirectAttributes flash) {
-        medicalCardService.removeTherapy(tpId);
-        flash.addFlashAttribute("success", "Призначення видалено.");
-        return "redirect:/medical/protocol/" + id;
+    @PostMapping("/protocol/{protocolId}/edit")
+    public String updateProtocol(@PathVariable Long protocolId, @ModelAttribute ClinicalProtocol protocolFromForm, RedirectAttributes flash) {
+        ClinicalProtocol existingProtocol = protocolService.findById(protocolId);
+        existingProtocol.setResult(protocolFromForm.getResult());
+        protocolService.save(existingProtocol);
+        flash.addFlashAttribute("successMessage", "Протокол успішно оновлено.");
+        return "redirect:/medical-card/protocol/" + existingProtocol.getId();
     }
 }

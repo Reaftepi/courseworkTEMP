@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
+
+    <h2 class="page-title" th:text="${protocol.id == null ? 'Новий протокол' : 'Редагування протоколу'}">Форма протоколу</h2>
+
+    <form th:object="${protocol}"
+          th:action="${protocol.id == null} ? @{/medical-card/patient/{id}/new-protocol(id=${protocol.patient.id})} : @{/medical-card/protocol/{id}/edit(id=${protocol.id})}"
+          method="post" class="card form-card form">
+
+        <div class="form-group">
+            <label for="result">Результат / Підсумок</label>
+            <textarea id="result" th:field="*{result}" rows="5" class="form-control" placeholder="Опишіть результат лікування, фінальний діагноз, рекомендації..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Зберегти</button>
+            <a th:href="@{/medical-card/patient/{id}(id=${protocol.patient.id})}" class="btn btn-secondary">Скасувати</a>
+        </div>
+    </form>
+
+</th:block>
+</body>
+</html>

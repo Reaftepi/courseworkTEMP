@@ -1,80 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Новий запис | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/patients}"     class="nav-link">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link active">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link">🔔</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
-    </form>
-  </div>
-</nav>
-<div class="container">
-  <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
 
-  <div class="card form-card">
-    <h2 class="card-title">📅 Новий запис на прийом</h2>
+    <h2 class="page-title">Новий запис на прийом</h2>
 
-    <form th:action="@{/appointments/new}" method="post" class="form">
+    <form th:object="${appointment}" th:action="@{/appointments/new}" method="post" class="card form-card form">
 
-      <div class="form-group">
-        <label>Пацієнт *</label>
-        <select name="patientId" required>
-          <option value="">— оберіть пацієнта —</option>
-          <option th:each="p : ${patients}"
-                  th:value="${p.id}"
-                  th:text="${p.fullName}"
-                  th:selected="${p.id == preselectedPatientId}">Пацієнт</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Лікар *</label>
-        <select name="staffId" required>
-          <option value="">— оберіть лікаря —</option>
-          <option th:each="doc : ${doctors}"
-                  th:value="${doc.id}"
-                  th:text="${doc.fullName}">Лікар</option>
-        </select>
-      </div>
-
-      <div class="form-row">
         <div class="form-group">
-          <label>Дата та час *</label>
-          <!-- datetime-local → ISO формат для Spring @DateTimeFormat -->
-          <input type="datetime-local" name="startTime" required/>
+            <label for="patient">Пацієнт</label>
+            <select id="patient" th:field="*{patient}" required class="form-control">
+                <option value="">-- Виберіть пацієнта --</option>
+                <option th:each="p : ${patients}"
+                        th:value="${p.id}"
+                        th:text="${p.fullName}">Patient Name</option>
+            </select>
         </div>
+
         <div class="form-group">
-          <label>Тривалість (хв)</label>
-          <select name="duration">
-            <option value="45">45 хв</option>
-            <option value="60" selected>60 хв</option>
-            <option value="90">90 хв</option>
-          </select>
+            <label for="staff">Лікар</label>
+            <select id="staff" th:field="*{staff}" required class="form-control">
+                <option value="">-- Виберіть лікаря --</option>
+                <option th:each="doc : ${doctors}"
+                        th:value="${doc.id}"
+                        th:text="${doc.fullName}">Doctor Name</option>
+            </select>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label>Вартість (грн)</label>
-        <input type="number" name="price" value="500" step="50" min="0"/>
-      </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="startTime">Дата та час</label>
+                <input type="datetime-local" id="startTime" th:field="*{startTime}" required class="form-control" step="300">
+            </div>
+            <div class="form-group">
+                <label for="duration">Тривалість (хв)</label>
+                <select id="duration" th:field="*{duration}" required class="form-control">
+                    <option value="30">30 хвилин</option>
+                    <option value="60">60 хвилин</option>
+                    <option value="90">90 хвилин</option>
+                </select>
+            </div>
+        </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">📅 Записати</button>
-        <a th:href="@{/appointments}" class="btn btn-secondary">Скасувати</a>
-      </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Створити запис</button>
+            <a th:href="@{/appointments}" class="btn btn-secondary">Скасувати</a>
+        </div>
     </form>
-  </div>
-</div>
+
+</th:block>
 </body>
 </html>

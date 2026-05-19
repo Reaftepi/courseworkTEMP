@@ -67,7 +67,8 @@ public class DataInitializer implements CommandLineRunner {
         patientRepo.save(Patient.builder()
                 .firstName("Оксана").lastName("Мельник")
                 .sex("Ж").height(165).weight(62).status("Амбулаторний")
-                .dateOfArrival(LocalDate.of(2024, 5, 20)).build());
+                .dateOfArrival(LocalDate.of(2024, 5, 20))
+                .phoneNumber("+380631234567").build());
 
         patientRepo.save(Patient.builder()
                 .firstName("Андрій").lastName("Шевченко")

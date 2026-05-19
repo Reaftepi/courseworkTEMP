@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import kpi.pavlenko.shvets.coursework.entity.Invoices;
 
 @Entity
 @Table(name = "appointment")
@@ -40,4 +41,7 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AppStatus status;
+
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Invoices invoice;
 }

@@ -1,59 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Картка пацієнта | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/patients}" class="nav-link active">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link">🔔</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
-    </form>
-  </div>
-</nav>
-<div class="container">
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
 
-  <div class="page-header">
-    <h2 class="page-title" th:text="${patient.fullName}">Пацієнт</h2>
-    <div>
-      <a th:href="@{/patients/{id}/edit(id=${patient.id})}" class="btn btn-warning">✏️ Редагувати</a>
-      <a th:href="@{/appointments/new(patientId=${patient.id})}" class="btn btn-primary">📅 Записати</a>
-      <span sec:authorize="hasAnyRole('DOCTOR','ADMIN')">
-        <a th:href="@{/medical/patient/{id}(id=${patient.id})}" class="btn btn-info">📋 Медкартка</a>
-      </span>
-    </div>
-  </div>
-
-  <!-- Основна інформація -->
-  <div class="info-grid">
-    <div class="card info-card">
-      <h3>Особисті дані</h3>
-      <dl class="info-list">
-        <dt>ID</dt>        <dd th:text="${patient.id}">—</dd>
-        <dt>Стать</dt>     <dd th:text="${patient.sex ?: '—'}">—</dd>
-        <dt>Зріст</dt>     <dd th:text="${patient.height != null ? patient.height + ' см' : '—'}">—</dd>
-        <dt>Вага</dt>      <dd th:text="${patient.weight != null ? patient.weight + ' кг' : '—'}">—</dd>
-        <dt>Статус</dt>    <dd th:text="${patient.status ?: '—'}">—</dd>
-        <dt>Дата звернення</dt>
-        <dd th:text="${patient.dateOfArrival != null ? #temporals.format(patient.dateOfArrival,'dd.MM.yyyy') : '—'}">—</dd>
-      </dl>
+    <div class="page-header">
+        <h2 class="page-title" th:text="${patient.fullName}">Ім'я пацієнта</h2>
+        <div class="form-actions">
+            <a th:href="@{/patients/{id}/edit(id=${patient.id})}" class="btn btn-warning">Редагувати</a>
+            <a th:href="@{/appointments/new(patientId=${patient.id})}" class="btn btn-primary">+ Новий запис</a>
+        </div>
     </div>
 
-    <div class="card info-card" th:if="${patient.behavior != null}">
-      <h3>Поведінкові особливості</h3>
-      <p th:text="${patient.behavior}" class="text-content">—</p>
-    </div>
-  </div>
+    <div class="info-grid">
+        <div class="card info-card">
+            <h3>Основна інформація</h3>
+            <dl class="info-list">
+                <dt>Повне ім'я</dt>
+                <dd th:text="${patient.fullName}">-</dd>
 
-</div>
+                <dt>Дата народження</dt>
+                <dd th:text="${patient.birthday != null ? #temporals.format(patient.birthday, 'dd.MM.yyyy') : '—'}">-</dd>
+
+                <dt>Стать</dt>
+                <dd th:text="${patient.sex}">-</dd>
+
+                <dt>Телефон</dt>
+                <dd th:text="${patient.phoneNumber}">-</dd>
+            </dl>
+        </div>
+
+        <div class="card info-card">
+            <h3>Медичні показники</h3>
+            <dl class="info-list">
+                <dt>Зріст</dt>
+                <dd th:text="${patient.height} + ' см'">-</dd>
+
+                <dt>Вага</dt>
+                <dd th:text="${patient.weight} + ' кг'">-</dd>
+
+                <dt>Статус</dt>
+                <dd th:text="${patient.status}">-</dd>
+
+                <dt>Поведінка</dt>
+                <dd th:text="${patient.behavior}">-</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Тут можна буде додати історію прийомів, протоколи тощо -->
+
+</th:block>
 </body>
 </html>

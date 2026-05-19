@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
+
+    <div class="page-header">
+        <h2 class="page-title" th:text="'Клінічні протоколи: ' + ${patient.fullName}">Клінічні протоколи</h2>
+        <a th:href="@{/medical/patient/{id}/new-protocol(id=${patient.id})}" class="btn btn-primary">+ Новий протокол</a>
+    </div>
+
+    <div class="card">
+        <table class="table" th:if="${not #lists.isEmpty(protocols)}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Дата створення</th>
+                <th>Лікар</th>
+                <th>Результат</th>
+                <th>Дії</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${protocols}">
+                <td th:text="${p.id}">-</td>
+                <td th:text="${#temporals.format(p.startDate, 'dd.MM.yyyy')}">-</td>
+                <td th:text="${p.staff.fullName}">-</td>
+                <td th:text="${p.result}">-</td>
+                <td class="actions">
+                    <a th:href="@{/medical/protocol/{id}(id=${p.id})}" class="btn btn-sm btn-secondary">Переглянути</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${#lists.isEmpty(protocols)}" class="text-muted p-3">
+            Для цього пацієнта ще немає протоколів.
+        </p>
+    </div>
+
+</th:block>
+</body>
+</html>

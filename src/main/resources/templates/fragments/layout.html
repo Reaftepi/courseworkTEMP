@@ -12,18 +12,25 @@
 
 <!-- ====== НАВІГАЦІЯ ====== -->
 <nav class="navbar">
-    <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-    <div class="nav-links">
-        <a th:href="@{/dashboard}"       class="nav-link">Дашборд</a>
-        <a th:href="@{/patients}"        class="nav-link">Пацієнти</a>
-        <a th:href="@{/appointments}"    class="nav-link">Розклад</a>
-        <!-- ВИПРАВЛЕНО: Медична картка — тільки лікар -->
-        <a th:href="@{/patients}" class="nav-link" sec:authorize="hasRole('DOCTOR')">Медкартки</a>
-        <!-- Персонал — тільки адмін -->
-        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')">Персонал</a>
-        <!-- Сповіщення з лічильником -->
-        <a th:href="@{/notifications}" class="nav-link nav-link--notification">
-            <span>🔔</span>
+    <a class="navbar-brand" th:href="@{/dashboard}">ClinicApp</a>
+    <div class="nav-links"> <!-- currentUri тепер надається GlobalControllerAdvice -->
+        <a th:href="@{/dashboard}" class="nav-link"
+           th:classappend="${currentUri.startsWith('/dashboard') ? 'active' : ''}">Дашборд</a>
+
+        <a th:href="@{/patients}" class="nav-link"
+           th:classappend="${currentUri.startsWith('/patients') ? 'active' : ''}">Пацієнти</a>
+
+        <a th:href="@{/appointments}" class="nav-link"
+           th:classappend="${currentUri.startsWith('/appointments') ? 'active' : ''}">Розклад</a>
+
+        <a th:href="@{/medical-records}" class="nav-link" sec:authorize="hasRole('DOCTOR')"
+           th:classappend="${currentUri.startsWith('/medical') ? 'active' : ''}">Медкартки</a>
+
+        <a th:href="@{/staff}" class="nav-link" sec:authorize="hasRole('ADMIN')"
+           th:classappend="${currentUri.startsWith('/staff') ? 'active' : ''}">Персонал</a>
+
+        <a th:href="@{/notifications}" class="nav-link nav-link--notification"
+           th:classappend="${currentUri.startsWith('/notifications') ? 'active' : ''}">
             <span>Сповіщення</span>
             <span class="badge"
                   th:text="${unreadNotifications}"
@@ -33,7 +40,7 @@
     <!-- Ім'я користувача + вихід -->
     <div class="nav-user">
         <span sec:authentication="name" class="nav-username"></span>
-        <form th:action="@{/logout}" method="post" style="display:inline">
+        <form th:action="@{/logout}" method="post" class="form-inline">
             <button type="submit" class="btn-logout">Вийти</button>
         </form>
     </div>

@@ -1,31 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Медична картка | ClinicApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body class="page-body">
-<nav class="navbar">
-  <a class="navbar-brand" th:href="@{/dashboard}">🏥 ClinicApp</a>
-  <div class="nav-links">
-    <a th:href="@{/patients}"     class="nav-link active">Пацієнти</a>
-    <a th:href="@{/appointments}" class="nav-link">Розклад</a>
-    <a th:href="@{/notifications}" class="nav-link">🔔</a>
-  </div>
-  <div class="nav-user">
-    <form th:action="@{/logout}" method="post" style="display:inline">
-      <button type="submit" class="btn-logout">Вийти</button>
-    </form>
-  </div>
-</nav>
-<div class="container">
-  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main-content})}">
+<body>
+<th:block th:fragment="main-content">
 
   <div class="page-header">
-    <h2 class="page-title">📋 Медична картка: <span th:text="${patient.fullName}"></span></h2>
+    <h2 class="page-title">Медична картка: <span th:text="${patient.fullName}"></span></h2>
     <div>
-      <a th:href="@{/patients/{id}(id=${patient.id})}" class="btn btn-secondary">← Назад</a>
+      <a th:href="@{/medical-records}" class="btn btn-secondary">← До списку пацієнтів</a>
       <!-- Новий протокол — через POST -->
       <form th:action="@{/medical/patient/{id}/protocol/new(id=${patient.id})}"
             method="post">
@@ -65,6 +47,6 @@
     Протоколів ще немає. Натисніть «+ Новий протокол» щоб розпочати.
   </div>
 
-</div>
+</th:block>
 </body>
 </html>
