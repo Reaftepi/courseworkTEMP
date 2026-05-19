@@ -31,11 +31,12 @@ public class ClinicalProtocol {
     @Column(name = "result")
     private String result;
 
-    //TODO WRITE OneToMany
-
-    @OneToMany(mappedBy = "clinicalProtocol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clinicalProtocol", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DiagnosisProtocol> diagnoses;
 
-    @OneToMany(mappedBy = "clinicalProtocol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clinicalProtocol", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<TherapyProtocol> therapies;
+
+    @OneToMany(mappedBy = "protocol", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ProtocolDocument> documents;
 }

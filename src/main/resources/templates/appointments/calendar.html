@@ -9,8 +9,7 @@
         <a th:href="@{/appointments/new}" class="btn btn-primary">+ Новий запис</a>
     </div>
 
-    <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <!-- Повідомлення про помилки та успіх тепер відображаються глобально через fragments/layout.html -->
 
     <div class="card mt-3">
         <div class="card-header">
@@ -34,7 +33,7 @@
                     <!-- selectedDate буде null, якщо showAll=true, що нормально для input type="date" -->
                     <input type="date" id="date" name="date" class="form-control" th:value="${selectedDate}">
                 </div>
-                <div class="filter-actions"> <!-- Новий контейнер для кнопок -->
+                <div class="filter-actions">
                     <button type="submit" class="btn btn-primary">Показати</button>
                     <a th:href="@{/appointments(showAll=true)}" class="btn btn-secondary">Показати всі прийоми</a>
                 </div>
@@ -73,6 +72,7 @@
                         <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Скасувати запис?')">✗ Скасувати</button>
                     </form>
+                    <a th:href="@{/appointments/{id}/edit(id=${apt.id})}" class="btn btn-sm btn-warning">✏️ Редагувати</a>
                 </td>
                 <td th:unless="${apt.status.name() == 'SCHEDULED'}">—</td>
             </tr>

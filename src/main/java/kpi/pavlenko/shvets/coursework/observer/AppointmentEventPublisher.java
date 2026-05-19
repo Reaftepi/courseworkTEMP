@@ -2,51 +2,71 @@ package kpi.pavlenko.shvets.coursework.observer;
 
 import kpi.pavlenko.shvets.coursework.entity.Appointment;
 import kpi.pavlenko.shvets.coursework.entity.Invoices;
-import org.springframework.beans.factory.annotation.Autowired;
+import kpi.pavlenko.shvets.coursework.entity.Role;
+import kpi.pavlenko.shvets.coursework.entity.User;
+import kpi.pavlenko.shvets.coursework.repository.UserRepository;
+import kpi.pavlenko.shvets.coursework.service.NotificationService;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 @Component
-public class AppointmentEventPublisher implements NotificationSubject {
-    private final List<NotificationObserver> observers = new ArrayList<>();
+public class AppointmentEventPublisher {
 
-    @Autowired
-    public AppointmentEventPublisher(List<NotificationObserver> observers) {
-        this.observers.addAll(observers);
-        System.out.println("Initialized AppointmentEventPublisher with " + observers.size() + " observers.");
+    private final NotificationService notificationService;
+    private final UserRepository userRepository;
+
+
+    public AppointmentEventPublisher(NotificationService notificationService, UserRepository userRepository) {
+        this.notificationService = notificationService;
+        this.userRepository = userRepository;
     }
 
-    @Override
-    public void subscribe(NotificationObserver observer) {
-        observers.add(observer);
+    public void onAppointmentCreated(Appointment appointment) {
+        String patientMessage = String.format("Ви успішно записані на прийом до лікаря %s на %s.",
+                appointment.getStaff().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        // notificationService.createNotification(appointment.getPatient().getPhoneNumber(), patientMessage); // Пацієнти не мають User-акаунтів
+
+        String staffMessage = String.format("Новий запис на прийом: пацієнт %s на %s.",
+                appointment.getPatient().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        notificationService.createNotification(appointment.getStaff().getUser().getLogin(), staffMessage);
     }
 
-    @Override
-    public void unsubscribe(NotificationObserver observer) {
-        observers.remove(observer);
+    public void onAppointmentCancelled(Appointment appointment) {
+        String patientMessage = String.format("Ваш прийом до лікаря %s на %s було скасовано.",
+                appointment.getStaff().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        // notificationService.createNotification(appointment.getPatient().getPhoneNumber(), patientMessage); // Пацієнти не мають User-акаунтів
+
+        String staffMessage = String.format("Прийом пацієнта %s на %s було скасовано.",
+                appointment.getPatient().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        notificationService.createNotification(appointment.getStaff().getUser().getLogin(), staffMessage);
     }
 
-    @Override
-    public void notifyObservers(AppointmentEvent event) {
-        for (NotificationObserver observer : observers) {
-            observer.update(event);
+    public void onScheduleChanged(Appointment appointment) {
+        // Логіка для сповіщення про зміну розкладу (якщо буде реалізовано)
+    }
+
+    public void onAppointmentCompleted(Appointment appointment) {
+        // Сповіщення для пацієнта (закоментовано, бо пацієнти не мають акаунтів)
+        // String patientMessage = String.format("Ваш прийом до лікаря %s на %s завершено.",
+        //         appointment.getStaff().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        // notificationService.createNotification(appointment.getPatient().getPhoneNumber(), patientMessage);
+
+        // Сповіщення для лікаря
+        String staffMessage = String.format("Прийом пацієнта %s, запланований на %s, завершено.",
+                appointment.getPatient().getFullName(), appointment.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        notificationService.createNotification(appointment.getStaff().getUser().getLogin(), staffMessage);
+    }
+
+    public void onInvoiceUnpaid(Appointment appointment, Invoices invoice) {
+        String message = String.format("Новий неоплачений рахунок #%d для пацієнта %s за прийом #%d на суму %.2f грн.",
+                invoice.getId(), appointment.getPatient().getFullName(), appointment.getId(), invoice.getTotalAmount());
+
+        // Знаходимо всіх користувачів з роллю ADMIN
+        List<User> admins = userRepository.findByRole(Role.ADMIN);
+        for (User admin : admins) {
+            notificationService.createNotification(admin.getLogin(), message);
         }
-    }
-
-    public void onAppointmentCreated(Appointment apt) {
-        notifyObservers(AppointmentEvent.created(apt));
-    }
-
-    public void onScheduleChanged(Appointment apt){
-        notifyObservers(AppointmentEvent.scheduleChanged(apt));
-    }
-
-    public void onAppointmentCancelled(Appointment apt){
-        notifyObservers(AppointmentEvent.cancelled(apt));
-    }
-
-    public void onInvoiceUnpaid(Appointment apt, Invoices inv){
-        notifyObservers(AppointmentEvent.invoiceUnpaid(apt, inv));
     }
 }

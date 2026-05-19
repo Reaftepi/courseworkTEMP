@@ -53,11 +53,15 @@ public class AppointmentService {
     }
 
     @Transactional(readOnly = true)
-    public boolean hasConflict(Long staffId, LocalDateTime startTime, int duration) {
+    public boolean hasConflict(Long staffId, LocalDateTime startTime, int duration, Long currentAppointmentId) {
         var endTime = startTime.plusMinutes(duration);
         List<Appointment> appointments = appointmentRepository.findByStaffAndDay(staffId, startTime.minusMinutes(90), endTime.plusMinutes(90));
         for (Appointment apt : appointments) {
             if(apt.getStatus() == AppStatus.CANCELLED) {
+                continue;
+            }
+            // Перевіряємо, чи не є це той самий запис, який ми редагуємо
+            if (currentAppointmentId != null && apt.getId().equals(currentAppointmentId)) {
                 continue;
             }
             LocalDateTime aptEnd = apt.getStartTime().plusMinutes(apt.getDuration());
@@ -69,18 +73,16 @@ public class AppointmentService {
     }
 
     public Appointment save(Appointment appointment) {
-        // Перевірка на конфлікт часу для нових записів
-        if (appointment.getId() == null && hasConflict(appointment.getStaff().getId(), appointment.getStartTime(), appointment.getDuration())) {
-            throw new RuntimeException("Schedule conflict detected.");
+        // Цей метод тепер використовується переважно для оновлення
+        if (hasConflict(appointment.getStaff().getId(), appointment.getStartTime(), appointment.getDuration(), appointment.getId())) {
+            throw new RuntimeException("Конфлікт розкладу: обраний час вже зайнято.");
         }
-        Appointment savedAppointment = appointmentRepository.save(appointment);
-        // Тут можна додати логіку сповіщень, якщо потрібно
-        return savedAppointment;
+        return appointmentRepository.save(appointment);
     }
 
     public Appointment create(Long patientId, Long staffId, LocalDateTime startTime, int duration, BigDecimal price) {
-        if(hasConflict(staffId, startTime, duration)) {
-            throw new RuntimeException("Schedule conflict detected.");
+        if(hasConflict(staffId, startTime, duration, null)) { // Для нових записів, немає currentAppointmentId
+            throw new RuntimeException("Конфлікт розкладу: обраний час вже зайнято.");
         }
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found."));
         Staff staff = staffRepository.findById(staffId).orElseThrow(() -> new RuntimeException("Staff not found."));
@@ -99,7 +101,7 @@ public class AppointmentService {
                 .totalAmount(price)
                 .isPaid(false)
                 .build();
-        inv = invoiceRepository.save(inv);
+        invoiceRepository.save(inv);
 
         appointmentEventPublisher.onAppointmentCreated(apt);
         appointmentEventPublisher.onInvoiceUnpaid(apt, inv);
@@ -111,15 +113,18 @@ public class AppointmentService {
         Appointment apt = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found."));
         apt.setStatus(AppStatus.CANCELLED);
+        appointmentRepository.save(apt);
         appointmentEventPublisher.onAppointmentCancelled(apt);
-        return appointmentRepository.save(apt);
+        return apt;
     }
 
     public Appointment completed(Long appointmentId){
         Appointment apt = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found."));
         apt.setStatus(AppStatus.COMPLETED);
-        return appointmentRepository.save(apt);
+        appointmentRepository.save(apt);
+        appointmentEventPublisher.onAppointmentCompleted(apt); // Додано виклик події
+        return apt;
     }
 
     public void reschedule(Long appointmentId, LocalDateTime newStartTime) {
@@ -128,7 +133,7 @@ public class AppointmentService {
         if (apt.getStatus() == AppStatus.CANCELLED) {
             throw new RuntimeException("Cannot reschedule a cancelled appointment.");
         }
-        if (hasConflict(apt.getStaff().getId(), newStartTime, apt.getDuration())) {
+        if (hasConflict(apt.getStaff().getId(), newStartTime, apt.getDuration(), apt.getId())) { // Передаємо ID поточного запису
             throw new RuntimeException("Schedule conflict detected.");
         }
         apt.setStartTime(newStartTime);
@@ -148,5 +153,4 @@ public class AppointmentService {
             return getAllForDay(date);
         }
     }
-
 }

@@ -21,6 +21,10 @@
         Сесія закінчилися через неактивність. Увійдіть знову.
     </div>
 
+    <!-- Додані повідомлення про успіх/помилку для відновлення пароля -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
     <form th:action="@{/login}" method="post" class="login-form">
         <div class="form-group">
             <label for="username">Логін</label>
@@ -31,6 +35,9 @@
             <label for="password">Пароль</label>
             <input type="password" id="password" name="password"
                    placeholder="Введіть пароль" required/>
+            <div class="login-hint" style="text-align: right; margin-top: 5px;">
+                <a th:href="@{/forgot-password}">Забули пароль?</a>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary btn-full">Увійти</button>
     </form>

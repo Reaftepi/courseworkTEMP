@@ -30,6 +30,7 @@
                 <td th:text="${s.user.role}">-</td>
                 <td th:text="${#temporals.format(s.dateOfEmployment, 'dd.MM.yyyy')}">-</td>
                 <td class="actions">
+                    <a th:href="@{/staff/{id}/edit(id=${s.id})}" class="btn btn-sm btn-warning">Редагувати</a>
                     <form th:action="@{/staff/{id}/delete(id=${s.id})}" method="post" class="form-inline">
                         <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Видалити співробітника?')">Видалити</button>

@@ -16,9 +16,12 @@
                     <span class="notification-msg" th:text="${n.message}"></span>
                     <small class="text-muted" th:text="${#temporals.format(n.createdAt, 'dd.MM.yyyy HH:mm')}"></small>
                 </div>
-                <div class="notification-actions" th:if="${not n.read}">
-                    <form th:action="@{/notifications/{id}/read(id=${n.id})}" method="post" class="form-inline">
+                <div class="notification-actions">
+                    <form th:if="${not n.read}" th:action="@{/notifications/{id}/read(id=${n.id})}" method="post" class="form-inline">
                         <button type="submit" class="btn btn-sm btn-success" title="Позначити як прочитане">✓</button>
+                    </form>
+                    <form th:action="@{/notifications/{id}/delete(id=${n.id})}" method="post" class="form-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" title="Видалити сповіщення" onclick="return confirm('Видалити це сповіщення?')">🗑</button>
                     </form>
                 </div>
             </div>

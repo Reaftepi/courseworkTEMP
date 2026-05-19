@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/notifications")
@@ -30,6 +31,13 @@ public class NotificationController {
     @PostMapping("/{id}/read")
     public String markAsRead(@PathVariable Long id) {
         notificationService.markRead(id);
+        return "redirect:/notifications";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteNotification(@PathVariable Long id, RedirectAttributes flash) {
+        notificationService.deleteNotification(id);
+        flash.addFlashAttribute("successMessage", "Сповіщення видалено.");
         return "redirect:/notifications";
     }
 }

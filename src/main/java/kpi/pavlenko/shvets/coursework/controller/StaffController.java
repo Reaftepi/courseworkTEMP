@@ -1,6 +1,5 @@
 package kpi.pavlenko.shvets.coursework.controller;
 
-import kpi.pavlenko.shvets.coursework.entity.Role;
 import kpi.pavlenko.shvets.coursework.entity.Staff;
 import kpi.pavlenko.shvets.coursework.service.StaffService;
 import org.springframework.stereotype.Controller;
@@ -34,18 +33,34 @@ public class StaffController {
 
     @PostMapping("/new")
     public String create(
-            @RequestParam String login,
+            @ModelAttribute Staff staff,
             @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String position,
-            @RequestParam(defaultValue = "false") boolean isMedical,
             RedirectAttributes flash
     ) {
-        // For simplicity, role is hardcoded. In a real app, this would be more dynamic.
-        Role role = isMedical ? Role.DOCTOR : Role.ADMIN;
-        staffService.create(login, password, role, firstName, lastName, position, isMedical);
-        flash.addFlashAttribute("successMessage", "Співробітника успішно створено.");
+        try {
+            staffService.create(staff, password);
+            flash.addFlashAttribute("successMessage", "Співробітника успішно створено.");
+        } catch (RuntimeException e) {
+            flash.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/staff/new";
+        }
+        return "redirect:/staff";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Staff staff = staffService.findById(id);
+        model.addAttribute("staff", staff);
+        model.addAttribute("pageTitle", "Редагування: " + staff.getFullName());
+        return "staff/form";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id,
+                         @ModelAttribute Staff staffFromForm,
+                         RedirectAttributes flash) {
+        staffService.update(id, staffFromForm);
+        flash.addFlashAttribute("successMessage", "Дані співробітника оновлено.");
         return "redirect:/staff";
     }
 

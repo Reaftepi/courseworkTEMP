@@ -7,6 +7,7 @@ import kpi.pavlenko.shvets.coursework.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,5 +51,27 @@ public class NotificationService {
             notification.setRead(true);
         }
         notificationRepository.saveAll(notifications);
+    }
+
+    public Notifications createNotification(String login, String message) {
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found."));
+
+        // Використовуємо конструктор, згенерований Lombok @AllArgsConstructor,
+        // виходячи з логу помилки та структури Notifications.java.
+        // Сигнатура: Notifications(Long id, Long userId, String message, String type, boolean read, LocalDateTime createdAt)
+        Notifications notification = new Notifications(
+            null, // id (буде згенеровано базою даних)
+            user.getId(), // userId
+            message, // message
+            "Неоплачений рахунок", // type (як визначено у вашій сутності)
+            false, // read (статус прочитання)
+            LocalDateTime.now() // createdAt
+        );
+
+        return notificationRepository.save(notification);
+    }
+
+    public void deleteNotification(Long id) {
+        notificationRepository.deleteById(id);
     }
 }

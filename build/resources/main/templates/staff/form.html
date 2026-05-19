@@ -4,32 +4,35 @@
 <body>
 <th:block th:fragment="main-content">
 
-    <h2 class="page-title">Новий співробітник</h2>
+    <h2 class="page-title" th:text="${staff.id == null ? 'Новий співробітник' : 'Редагування співробітника'}"></h2>
 
-    <form th:action="@{/staff/new}" method="post" class="card form-card form">
+    <form th:object="${staff}"
+          th:action="${staff.id == null} ? @{/staff/new} : @{/staff/{id}/edit(id=${staff.id})}"
+          method="post" class="card form-card form">
 
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">Ім'я</label>
-                <input type="text" id="firstName" name="firstName" required>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
             </div>
             <div class="form-group">
                 <label for="lastName">Прізвище</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="position">Посада</label>
-            <input type="text" id="position" name="position" required>
+            <input type="text" id="position" th:field="*{position}" required>
         </div>
 
         <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
 
-        <div class="form-row">
+        <!-- Поля для логіна та пароля відображаються лише при створенні нового співробітника -->
+        <div th:if="${staff.id == null}" class="form-row">
             <div class="form-group">
                 <label for="login">Логін</label>
-                <input type="text" id="login" name="login" required>
+                <input type="text" id="login" th:field="*{user.login}" required>
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
@@ -37,15 +40,22 @@
             </div>
         </div>
 
+        <!-- Для існуючого співробітника показуємо логін, але не дозволяємо його змінювати -->
+        <div th:if="${staff.id != null}" class="form-group">
+            <label for="login-disabled">Логін</label>
+            <input type="text" id="login-disabled" th:value="${staff.user.login}" disabled>
+            <small class="text-muted">Логін та пароль не можна змінити через цю форму.</small>
+        </div>
+
         <div class="form-group">
             <label class="checkbox-label">
-                <input type="checkbox" name="isMedical" value="true">
+                <input type="checkbox" th:field="*{medical}">
                 <span>Це медичний персонал (лікар)</span>
             </label>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Створити співробітника</button>
+            <button type="submit" class="btn btn-primary" th:text="${staff.id == null ? 'Створити співробітника' : 'Зберегти зміни'}"></button>
             <a th:href="@{/staff}" class="btn btn-secondary">Скасувати</a>
         </div>
     </form>
