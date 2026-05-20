@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.AuthControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:43.129Z" hostname="DESKTOP-MJO9OOU" time="0.521">
+  <properties/>
+  <testcase name="loginPage_shouldReturnLoginPage()" classname="kpi.pavlenko.shvets.coursework.controller.AuthControllerTest" time="0.032"/>
+  <testcase name="root_shouldRedirectToLogin_whenNotAuthenticated()" classname="kpi.pavlenko.shvets.coursework.controller.AuthControllerTest" time="0.009"/>
+  <testcase name="root_shouldRedirectToDashboard_whenAuthenticated()" classname="kpi.pavlenko.shvets.coursework.controller.AuthControllerTest" time="0.006"/>
+  <system-out><![CDATA[2026-05-20T12:04:43.135Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:43.142Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.AuthControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:43.164Z  INFO 9684 --- [    Test worker] k.p.s.c.controller.AuthControllerTest    : Starting AuthControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:43.165Z  INFO 9684 --- [    Test worker] k.p.s.c.controller.AuthControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:43.531Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2bf68c3e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e40bfbe, org.springframework.security.web.context.SecurityContextHolderFilter@40478af8, org.springframework.security.web.header.HeaderWriterFilter@470467b0, org.springframework.web.filter.CorsFilter@3a0d3af1, org.springframework.security.web.csrf.CsrfFilter@6603aeb8, org.springframework.security.web.authentication.logout.LogoutFilter@3f7f7faa, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6f303c5d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@48c122dc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2c1ce593, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54b12b39, org.springframework.security.web.session.SessionManagementFilter@3bca8557, org.springframework.security.web.access.ExceptionTranslationFilter@5dfabe82, org.springframework.security.web.access.intercept.AuthorizationFilter@35923f78]
+2026-05-20T12:04:43.534Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/forgot-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.535Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/forgot-password']
+2026-05-20T12:04:43.535Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/reset-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.535Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/reset-password']
+2026-05-20T12:04:43.535Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.535Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2026-05-20T12:04:43.535Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.535Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2026-05-20T12:04:43.536Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.536Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/images/**']
+2026-05-20T12:04:43.585Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:43.585Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:43.586Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-20T12:04:43.595Z  INFO 9684 --- [    Test worker] k.p.s.c.controller.AuthControllerTest    : Started AuthControllerTest in 0.45 seconds (process running for 8.491)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

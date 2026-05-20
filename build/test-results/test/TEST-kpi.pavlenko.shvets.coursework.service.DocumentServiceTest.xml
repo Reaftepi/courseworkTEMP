@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:46.693Z" hostname="DESKTOP-MJO9OOU" time="0.086">
+  <properties/>
+  <testcase name="init_shouldCreateDirectory()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.053"/>
+  <testcase name="getForProtocol_shouldReturnDocuments()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.002"/>
+  <testcase name="upload_shouldThrowException_whenFileTypeNotAllowed()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.002"/>
+  <testcase name="delete_shouldDeleteDocumentAndFile()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.003"/>
+  <testcase name="loadAsResource_shouldReturnResource_whenFileExists()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.003"/>
+  <testcase name="loadAsResource_shouldThrowException_whenFileNotOnDisk()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.003"/>
+  <testcase name="getById_shouldReturnDocument_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.002"/>
+  <testcase name="upload_shouldThrowException_whenProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.004"/>
+  <testcase name="loadAsResource_shouldThrowException_whenDocumentNotFound()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.002"/>
+  <testcase name="upload_shouldThrowException_whenFileIsEmpty()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.001"/>
+  <testcase name="upload_shouldSaveDocumentAndFile_whenValid()" classname="kpi.pavlenko.shvets.coursework.service.DocumentServiceTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:44.410Z" hostname="DESKTOP-MJO9OOU" time="0.652">
+  <properties/>
+  <testcase name="patientCard_shouldReturnPatientCardView()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.032"/>
+  <testcase name="addDiagnosis_shouldAddDiagnosisAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.008"/>
+  <testcase name="medicalEndpoints_shouldBeForbiddenForPatient()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.003"/>
+  <testcase name="addNote_shouldAddNoteAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.006"/>
+  <testcase name="saveResult_shouldUpdateProtocolAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="removeDiagnosis_shouldRemoveDiagnosisAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.007"/>
+  <testcase name="removeTherapy_shouldRemoveTherapyAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.006"/>
+  <testcase name="viewDocument_shouldReturnDocumentResource()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.05"/>
+  <testcase name="medicalEndpoints_shouldBeForbiddenForAdmin()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.003"/>
+  <testcase name="protocolView_shouldHandleProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="uploadDocument_shouldUploadFileAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.009"/>
+  <testcase name="protocolView_shouldReturnProtocolView()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.021"/>
+  <testcase name="patientCard_shouldHandlePatientNotFound()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="deleteDocument_shouldHandleDeleteException()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="addTherapy_shouldAddTherapyAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.007"/>
+  <testcase name="uploadDocument_shouldHandleUploadException()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="createProtocol_shouldCreateAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="createProtocol_shouldHandleServiceException()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="deleteDocument_shouldDeleteFileAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.005"/>
+  <testcase name="viewDocument_shouldReturnNotFound_whenDocumentServiceThrowsException()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.039"/>
+  <testcase name="medicalEndpoints_shouldRequireAuthentication()" classname="kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest" time="0.004"/>
+  <system-out><![CDATA[2026-05-20T12:04:44.412Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest]: MedicalControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:44.416Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.MedicalControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:44.430Z  INFO 9684 --- [    Test worker] k.p.s.c.c.MedicalControllerTest          : Starting MedicalControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:44.430Z  INFO 9684 --- [    Test worker] k.p.s.c.c.MedicalControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:44.766Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5214cf10, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5e57b7ef, org.springframework.security.web.context.SecurityContextHolderFilter@7dd9a18c, org.springframework.security.web.header.HeaderWriterFilter@60aceea5, org.springframework.web.filter.CorsFilter@279b3773, org.springframework.security.web.csrf.CsrfFilter@403e8cfa, org.springframework.security.web.authentication.logout.LogoutFilter@3d72db2d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7914c8ac, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@66f9c01b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@61a7c3a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7895ca84, org.springframework.security.web.session.SessionManagementFilter@49b4bd1c, org.springframework.security.web.access.ExceptionTranslationFilter@1b500d69, org.springframework.security.web.access.intercept.AuthorizationFilter@4a467e68]
+2026-05-20T12:04:44.768Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/forgot-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:44.768Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/forgot-password']
+2026-05-20T12:04:44.768Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/reset-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:44.769Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/reset-password']
+2026-05-20T12:04:44.769Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:44.769Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2026-05-20T12:04:44.769Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:44.769Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2026-05-20T12:04:44.769Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:44.769Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/images/**']
+2026-05-20T12:04:44.802Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:44.802Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:44.803Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-20T12:04:44.807Z  INFO 9684 --- [    Test worker] k.p.s.c.c.MedicalControllerTest          : Started MedicalControllerTest in 0.388 seconds (process running for 9.703)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

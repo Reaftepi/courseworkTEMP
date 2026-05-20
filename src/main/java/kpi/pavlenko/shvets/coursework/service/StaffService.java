@@ -83,6 +83,7 @@ public class StaffService {
             existingStaff.setMedical(staffFromForm.isMedical());
             Role newRole = staffFromForm.isMedical() ? Role.DOCTOR : Role.ADMIN;
             existingStaff.getUser().setRole(newRole);
+            userRepository.save(existingStaff.getUser());
         }
 
         return staffRepository.save(existingStaff);

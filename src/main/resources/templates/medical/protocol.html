@@ -30,7 +30,6 @@
   <div class="card mt-3">
     <div class="card-header">
       <h3>Всі протоколи пацієнта</h3>
-      <a th:href="@{/medical/patient/{id}/new-protocol(id=${patient.id})}" class="btn btn-primary">+ Новий протокол</a>
     </div>
     <table class="table" th:if="${not #lists.isEmpty(allPatientProtocols)}">
       <thead>

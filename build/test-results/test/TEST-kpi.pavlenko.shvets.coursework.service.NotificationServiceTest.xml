@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:47.066Z" hostname="DESKTOP-MJO9OOU" time="0.014">
+  <properties/>
+  <testcase name="count_shouldReturnZero_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="createNotification_shouldCreateAndSaveNotification_whenUserExists()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="createNotification_shouldThrowException_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="markReadAll_shouldSetAllUserNotificationsToReadAndSaveAll_whenUserExists()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="getAllUserNotifications_shouldThrowException_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="deleteNotification_shouldCallRepositoryDelete()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="count_shouldReturnUnreadCount_whenUserExists()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="markReadAll_shouldThrowException_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="getAllUserNotifications_shouldReturnNotifications_whenUserExists()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="markRead_shouldDoNothing_whenNotificationNotFound()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <testcase name="markRead_shouldSetReadToTrueAndSave_whenNotificationExists()" classname="kpi.pavlenko.shvets.coursework.service.NotificationServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

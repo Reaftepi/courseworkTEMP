@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:43.652Z" hostname="DESKTOP-MJO9OOU" time="0.505">
+  <properties/>
+  <testcase name="viewProtocol_shouldReturnProtocolView()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.045"/>
+  <testcase name="createProtocol_shouldCreateProtocolAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.014"/>
+  <testcase name="listProtocolsForPatient_shouldReturnProtocolsListView()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.02"/>
+  <testcase name="viewProtocol_shouldHandleProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.011"/>
+  <testcase name="listProtocolsForPatient_shouldHandlePatientNotFound()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.005"/>
+  <testcase name="createProtocol_shouldHandleServiceException()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.006"/>
+  <testcase name="newProtocolForm_shouldHandlePatientNotFound()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.005"/>
+  <testcase name="newProtocolForm_shouldReturnNewProtocolFormView()" classname="kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest" time="0.031"/>
+  <system-out><![CDATA[2026-05-20T12:04:43.654Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest]: ClinicalProtocolControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:43.661Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.ClinicalProtocolControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:43.688Z  INFO 9684 --- [    Test worker] k.p.s.c.c.ClinicalProtocolControllerTest : Starting ClinicalProtocolControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:43.688Z  INFO 9684 --- [    Test worker] k.p.s.c.c.ClinicalProtocolControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:43.937Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2ebaa3e8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1722bd4e, org.springframework.security.web.context.SecurityContextHolderFilter@53e759b1, org.springframework.security.web.header.HeaderWriterFilter@6efa105a, org.springframework.web.filter.CorsFilter@3e2a2f7a, org.springframework.security.web.csrf.CsrfFilter@7a3953b4, org.springframework.security.web.authentication.logout.LogoutFilter@5398adc9, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@38dab7df, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f815bea, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4147ec80, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@53a3132f, org.springframework.security.web.session.SessionManagementFilter@63730298, org.springframework.security.web.access.ExceptionTranslationFilter@67196a65, org.springframework.security.web.access.intercept.AuthorizationFilter@586e39e1]
+2026-05-20T12:04:43.941Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/forgot-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.942Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/forgot-password']
+2026-05-20T12:04:43.942Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/reset-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.942Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/reset-password']
+2026-05-20T12:04:43.942Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.942Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2026-05-20T12:04:43.942Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.942Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2026-05-20T12:04:43.943Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:43.943Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/images/**']
+2026-05-20T12:04:44.005Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:44.005Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:44.006Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-20T12:04:44.011Z  INFO 9684 --- [    Test worker] k.p.s.c.c.ClinicalProtocolControllerTest : Started ClinicalProtocolControllerTest in 0.347 seconds (process running for 8.907)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

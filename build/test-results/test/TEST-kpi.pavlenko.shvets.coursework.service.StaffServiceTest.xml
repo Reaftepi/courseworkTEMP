@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" tests="29" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:47.092Z" hostname="DESKTOP-MJO9OOU" time="0.072">
+  <properties/>
+  <testcase name="createPasswordResetToken_shouldThrowException_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.034"/>
+  <testcase name="isPasswordResetTokenValid_shouldReturnFalse_whenInvalidToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="create_shouldThrowException_whenLoginIsEmpty()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="update_shouldUpdateStaffDetailsAndChangeRole_whenMedicalStatusChangesToAdmin()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="update_shouldUpdateStaffDetails_whenNoRoleChange()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.002"/>
+  <testcase name="isPasswordResetTokenValid_shouldReturnFalse_whenExpiredToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="update_shouldUpdateStaffDetailsAndChangeRole_whenMedicalStatusChangesToDoctor()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="findById_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="unblock_shouldEncodeAndSetNewPassword()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="findById_shouldReturnStaff_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="block_shouldSetPasswordHashToBlocked()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="findByUsername_shouldThrowException_whenStaffNotFoundForUser()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.002"/>
+  <testcase name="createPasswordResetToken_shouldCreateAndSaveToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.002"/>
+  <testcase name="findByUsername_shouldThrowException_whenUserNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="delete_shouldCallRepositoryDelete()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="create_shouldCreateStaffAndUser_whenValidDataAndAdminRole()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.002"/>
+  <testcase name="resetPassword_shouldThrowException_whenInvalidToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="create_shouldCreateStaffAndUser_whenValidDataAndDoctorRole()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.002"/>
+  <testcase name="findByUsername_shouldReturnStaff_whenUserAndStaffExist()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.0"/>
+  <testcase name="block_shouldThrowException_whenStaffNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="update_shouldThrowException_whenStaffNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="resetPassword_shouldResetPasswordAndClearToken_whenValidToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="isPasswordResetTokenValid_shouldReturnTrue_whenValidToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="resetPassword_shouldThrowException_whenExpiredToken()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="getAllStaff_shouldReturnAllStaff()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="unblock_shouldThrowException_whenStaffNotFound()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="isPasswordResetTokenValid_shouldReturnFalse_whenExpiryDateIsNull()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="create_shouldThrowException_whenLoginAlreadyExists()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <testcase name="findDoctors_shouldReturnOnlyMedicalStaff()" classname="kpi.pavlenko.shvets.coursework.service.StaffServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:47.081Z" hostname="DESKTOP-MJO9OOU" time="0.01">
+  <properties/>
+  <testcase name="getAllPatients_shouldReturnAllPatients()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <testcase name="addPatient_shouldSavePatient()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.002"/>
+  <testcase name="search_shouldReturnFilteredPatients_whenQueryProvided()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <testcase name="findById_shouldReturnPatient_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <testcase name="search_shouldReturnAllPatients_whenQueryIsNull()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.002"/>
+  <testcase name="findById_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <testcase name="removePatientById_shouldCallRepositoryDelete()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <testcase name="search_shouldReturnAllPatients_whenQueryIsBlank()" classname="kpi.pavlenko.shvets.coursework.service.PatientServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

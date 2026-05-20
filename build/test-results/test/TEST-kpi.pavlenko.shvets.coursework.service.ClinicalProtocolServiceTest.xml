@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.ClinicalProtocolServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:46.636Z" hostname="DESKTOP-MJO9OOU" time="0.047">
+  <properties/>
+  <testcase name="save_shouldSaveClinicalProtocol()" classname="kpi.pavlenko.shvets.coursework.service.ClinicalProtocolServiceTest" time="0.042"/>
+  <testcase name="findById_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.ClinicalProtocolServiceTest" time="0.001"/>
+  <testcase name="findByPatient_shouldReturnProtocolsForPatient()" classname="kpi.pavlenko.shvets.coursework.service.ClinicalProtocolServiceTest" time="0.001"/>
+  <testcase name="findById_shouldReturnProtocol_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.ClinicalProtocolServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

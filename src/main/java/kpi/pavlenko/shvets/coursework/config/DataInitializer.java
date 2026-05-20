@@ -2,7 +2,7 @@ package kpi.pavlenko.shvets.coursework.config;
 
 import kpi.pavlenko.shvets.coursework.entity.*;
 import kpi.pavlenko.shvets.coursework.repository.*;
-import org.jspecify.annotations.NonNull;
+import jakarta.annotation.Nonnull; // Змінено імпорт
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

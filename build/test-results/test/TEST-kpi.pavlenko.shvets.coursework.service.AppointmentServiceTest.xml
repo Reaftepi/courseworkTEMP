@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:46.413Z" hostname="DESKTOP-MJO9OOU" time="0.223">
+  <properties/>
+  <testcase name="getAllForDay_shouldReturnAppointmentsForGivenDay()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.173"/>
+  <testcase name="reschedule_shouldThrowException_whenAppointmentNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="findByPatientId_shouldReturnAppointments()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="reschedule_shouldThrowException_whenConflictExists()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="hasConflict_shouldReturnFalse_whenConflictWithSelf()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="create_shouldThrowException_whenPatientNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="save_shouldUpdateAppointment_whenNoConflict()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="create_shouldThrowException_whenStaffNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="findById_shouldReturnAppointment_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="cancel_shouldSetStatusToCancelledAndPublishEvent()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="reschedule_shouldUpdateStartTimeAndPublishEvent_whenNoConflict()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.004"/>
+  <testcase name="findById_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="findAppointmentsByFilter_shouldReturnAllForDay_whenNoStaffIdProvided()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="getScheduleForDay_shouldReturnAppointmentsForStaffAndDay()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="completed_shouldThrowException_whenAppointmentNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="create_shouldThrowException_whenConflictExists()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="getAllAppointments_shouldReturnAllAppointments()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="completed_shouldSetStatusToCompletedAndPublishEvent()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="reschedule_shouldThrowException_whenAppointmentIsCancelled()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="hasConflict_shouldReturnFalse_whenConflictingAppointmentIsCancelled()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="create_shouldSaveAppointmentAndInvoice_whenNoConflict()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="findAppointmentsByFilter_shouldReturnScheduleForDay_whenStaffIdProvided()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="hasConflict_shouldReturnTrue_whenConflictExists()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="save_shouldThrowException_whenConflictExists()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="cancel_shouldThrowException_whenAppointmentNotFound()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="hasConflict_shouldReturnFalse_whenNoConflict()" classname="kpi.pavlenko.shvets.coursework.service.AppointmentServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

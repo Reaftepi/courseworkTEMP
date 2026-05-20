@@ -1,5 +1,7 @@
 package kpi.pavlenko.shvets.coursework.controller;
 
+import kpi.pavlenko.shvets.coursework.entity.Appointment;
+import kpi.pavlenko.shvets.coursework.entity.Patient;
 import kpi.pavlenko.shvets.coursework.service.AppointmentService;
 import kpi.pavlenko.shvets.coursework.service.PatientService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,8 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class DashboardController {
+
     private final PatientService patientService;
     private final AppointmentService appointmentService;
 
@@ -18,18 +25,24 @@ public class DashboardController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/", "/dashboard"})
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails currentUser) {
         model.addAttribute("pageTitle", "Дашборд");
-        model.addAttribute("totalPatients", patientService.getAllPatients().size());
-        model.addAttribute("totalAppointments", appointmentService.getAllAppointments().size());
 
-        var allApts = appointmentService.getAllAppointments();
-        var recent = allApts.stream()
-                .sorted((a, b) -> b.getStartTime().compareTo(a.getStartTime()))
+        List<Patient> patients = patientService.getAllPatients();
+        model.addAttribute("totalPatients", (long) patients.size());
+
+        // Отримуємо всі прийоми лише один раз для ефективності
+        List<Appointment> allAppointments = appointmentService.getAllAppointments();
+        model.addAttribute("totalAppointments", (long) allAppointments.size());
+
+        // Сортуємо та обмежуємо список для "останніх прийомів"
+        List<Appointment> recentAppointments = allAppointments.stream()
+                .sorted(Comparator.comparing(Appointment::getStartTime).reversed())
                 .limit(5)
-                .toList();
-        model.addAttribute("recentAppointments", recent);
+                .collect(Collectors.toList());
+        model.addAttribute("recentAppointments", recentAppointments);
+
         return "dashboard";
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:46.155Z" hostname="DESKTOP-MJO9OOU" time="0.087">
+  <properties/>
+  <testcase name="onAppointmentCompleted_shouldCreateNotificationForStaff()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.075"/>
+  <testcase name="onScheduleChanged_shouldDoNothing()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.002"/>
+  <testcase name="onInvoiceUnpaid_shouldDoNothing_whenNoAdminsFound()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.002"/>
+  <testcase name="onInvoiceUnpaid_shouldCreateNotificationForAllAdmins()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.002"/>
+  <testcase name="onAppointmentCreated_shouldCreateNotificationForStaff()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.001"/>
+  <testcase name="onAppointmentCancelled_shouldCreateNotificationForStaff()" classname="kpi.pavlenko.shvets.coursework.observer.AppointmentEventPublisherTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

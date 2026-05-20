@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.DashboardControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:44.158Z" hostname="DESKTOP-MJO9OOU" time="0.251">
+  <properties/>
+  <testcase name="dashboard_shouldReturnDashboardViewWithCorrectAttributes()" classname="kpi.pavlenko.shvets.coursework.controller.DashboardControllerTest" time="0.038"/>
+  <system-out><![CDATA[2026-05-20T12:04:44.159Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.DashboardControllerTest]: DashboardControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:44.164Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.DashboardControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:44.179Z  INFO 9684 --- [    Test worker] k.p.s.c.c.DashboardControllerTest        : Starting DashboardControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:44.179Z  INFO 9684 --- [    Test worker] k.p.s.c.c.DashboardControllerTest        : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:44.361Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d408c3c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5abac3d5, org.springframework.security.web.context.SecurityContextHolderFilter@30b55cae, org.springframework.security.web.header.HeaderWriterFilter@34e7832d, org.springframework.web.filter.CorsFilter@39648b7f, org.springframework.security.web.csrf.CsrfFilter@26827f2e, org.springframework.security.web.authentication.logout.LogoutFilter@6d31bae5, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@73b40ffd, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@721d8efb, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@2185b6d1, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@2ba83c41, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@65988f4f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57b2e99, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@235e2dec, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2cf0deac, org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter@12f9db3f, org.springframework.security.web.access.ExceptionTranslationFilter@2881c04a, org.springframework.security.web.access.intercept.AuthorizationFilter@761e1290]
+2026-05-20T12:04:44.367Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:44.367Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:44.368Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-20T12:04:44.371Z  INFO 9684 --- [    Test worker] k.p.s.c.c.DashboardControllerTest        : Started DashboardControllerTest in 0.204 seconds (process running for 9.266)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

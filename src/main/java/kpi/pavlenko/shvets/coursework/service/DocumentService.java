@@ -1,5 +1,6 @@
 package kpi.pavlenko.shvets.coursework.service;
 
+import jakarta.annotation.PostConstruct;
 import kpi.pavlenko.shvets.coursework.entity.ClinicalProtocol;
 import kpi.pavlenko.shvets.coursework.entity.ProtocolDocument;
 import kpi.pavlenko.shvets.coursework.repository.ClinicalProtocolRepository;
@@ -28,11 +29,24 @@ public class DocumentService {
 
     private final ProtocolDocumentRepository documentRepository;
     private final ClinicalProtocolRepository protocolRepository;
+    private Path uploadPath;
 
     public DocumentService(ProtocolDocumentRepository documentRepository,
                            ClinicalProtocolRepository protocolRepository) {
         this.documentRepository = documentRepository;
         this.protocolRepository = protocolRepository;
+    }
+
+    @PostConstruct
+    public void init() {
+        try {
+            uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create upload directory: " + uploadDir, e);
+        }
     }
 
     public ProtocolDocument upload(Long protocolId, MultipartFile file) throws IOException {
@@ -44,12 +58,6 @@ public class DocumentService {
         String contentType = file.getContentType();
         if (!isAllowed(contentType)) {
             throw new RuntimeException("Дозволені лише зображення та PDF");
-        }
-
-        // Створити директорію якщо не існує
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
         }
 
         // Унікальне ім'я файлу на диску
@@ -80,7 +88,7 @@ public class DocumentService {
         ProtocolDocument doc = documentRepository.findById(docId)
                 .orElseThrow(() -> new RuntimeException("Документ не знайдено"));
 
-        Path filePath = Paths.get(uploadDir).resolve(doc.getStoredName());
+        Path filePath = uploadPath.resolve(doc.getStoredName());
         Resource resource = new UrlResource(filePath.toUri());
 
         if (!resource.exists()) {
@@ -104,7 +112,7 @@ public class DocumentService {
         ProtocolDocument doc = documentRepository.findById(docId)
                 .orElseThrow(() -> new RuntimeException("Документ не знайдено"));
 
-        Path filePath = Paths.get(uploadDir).resolve(doc.getStoredName());
+        Path filePath = uploadPath.resolve(doc.getStoredName());
         Files.deleteIfExists(filePath);
 
         documentRepository.delete(doc);

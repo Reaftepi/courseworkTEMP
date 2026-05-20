@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:41.782Z" hostname="DESKTOP-MJO9OOU" time="1.344">
+  <properties/>
+  <testcase name="listAppointments_shouldReturnCalendarViewForToday_whenNoParams()" classname="kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest" time="0.46"/>
+  <testcase name="listAppointments_shouldReturnCalendarViewForSelectedDateAndStaff()" classname="kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest" time="0.017"/>
+  <testcase name="listAppointments_shouldReturnAllAppointmentsView_whenShowAllIsTrue()" classname="kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest" time="0.014"/>
+  <testcase name="update_shouldUpdateAndRedirect_whenValidData()" classname="kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest" time="0.024"/>
+  <system-out><![CDATA[2026-05-20T12:04:41.786Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest]: AppointmentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:41.804Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.AppointmentControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:41.823Z  INFO 9684 --- [    Test worker] k.p.s.c.c.AppointmentControllerTest      : Starting AppointmentControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:41.823Z  INFO 9684 --- [    Test worker] k.p.s.c.c.AppointmentControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:42.464Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@592bc6a7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@519552ae, org.springframework.security.web.context.SecurityContextHolderFilter@2159137c, org.springframework.security.web.header.HeaderWriterFilter@24c6f389, org.springframework.web.filter.CorsFilter@3e821bba, org.springframework.security.web.csrf.CsrfFilter@41366811, org.springframework.security.web.authentication.logout.LogoutFilter@350c7188, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@ffd66e1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7073b501, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@633a4a3d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5a2cb8e5, org.springframework.security.web.session.SessionManagementFilter@53dd9ff6, org.springframework.security.web.access.ExceptionTranslationFilter@48f3210f, org.springframework.security.web.access.intercept.AuthorizationFilter@69e0d31d]
+2026-05-20T12:04:42.469Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/forgot-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:42.469Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/forgot-password']
+2026-05-20T12:04:42.470Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/reset-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:42.470Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/reset-password']
+2026-05-20T12:04:42.470Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:42.470Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2026-05-20T12:04:42.470Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:42.470Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2026-05-20T12:04:42.470Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:42.470Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/images/**']
+2026-05-20T12:04:42.584Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:42.584Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:42.586Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-20T12:04:42.598Z  INFO 9684 --- [    Test worker] k.p.s.c.c.AppointmentControllerTest      : Started AppointmentControllerTest in 0.791 seconds (process running for 7.495)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -4,20 +4,34 @@
 <body>
 <th:block th:fragment="main-content">
 
-    <h2 class="page-title" th:text="${protocol.id == null ? 'Новий протокол' : 'Редагування протоколу'}">Форма протоколу</h2>
+    <h2 class="page-title" th:text="${pageTitle}">Новий клінічний протокол</h2>
 
+    <!-- Форма для создания нового протокола -->
     <form th:object="${protocol}"
-          th:action="${protocol.id == null} ? @{/medical/patient/{id}/new-protocol(id=${protocol.patient.id})} : @{/medical/protocol/{id}/edit(id=${protocol.id})}"
+          th:action="@{/medical/protocols}"
           method="post" class="card form-card form">
 
+        <!-- Скрытое поле для передачи ID пациента -->
+        <input type="hidden" name="patientId" th:value="${patient.id}" />
+
         <div class="form-group">
-            <label for="result">Результат / Підсумок</label>
-            <textarea id="result" th:field="*{result}" rows="5" class="form-control" placeholder="Опишіть результат лікування, фінальний діагноз, рекомендації..."></textarea>
+            <label>Пацієнт</label>
+            <input type="text" class="form-control" th:value="${patient.fullName}" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Дата початку</label>
+            <input type="date" id="startDate" th:field="*{startDate}" required class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="result">Результат (діагноз, висновок)</label>
+            <textarea id="result" th:field="*{result}" rows="4" class="form-control" placeholder="Введіть основний діагноз або висновок..."></textarea>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Зберегти</button>
-            <a th:href="@{/medical/protocol/{id}(id=${protocol.id != null ? protocol.id : protocol.patient.id})}" class="btn btn-secondary">Скасувати</a>
+            <button type="submit" class="btn btn-primary">Створити протокол</button>
+            <a th:href="@{/patients/{id}(id=${patient.id})}" class="btn btn-secondary">Скасувати</a>
         </div>
     </form>
 

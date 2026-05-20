@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.6'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.2.6' // Корректная версия Spring Boot
+    id 'io.spring.dependency-management' version '1.1.5' // Корректная версия плагина
 }
 
 group = 'kpi.pavlenko.shvets'
@@ -9,9 +9,8 @@ version = '0.0.1-SNAPSHOT'
 description = 'coursework'
 
 java {
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21 // Оновлено до JDK 21
+    targetCompatibility = JavaVersion.VERSION_21 // Оновлено до JDK 21
 }
 
 repositories {
@@ -28,22 +27,40 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-integration'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // Виправлена назва артефакту
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Корректный стартер для MVC
     implementation 'org.springframework.integration:spring-integration-http'
     implementation 'org.springframework.integration:spring-integration-jpa'
     implementation 'org.springframework.security:spring-security-messaging'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'org.postgresql:postgresql'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    runtimeOnly 'com.h2database:h2'
+
+
+    // Явно додаємо Jakarta Annotation API для @Nonnull
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+    // org.jspecify:jspecify видалено, оскільки воно не потрібне і може викликати конфлікти
+
+    // Основна залежність для тестування.
+    // Включає JUnit Jupiter, Mockito Core, AssertJ, Hamcrest, Spring Test.
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.6'
+
+    // Явно додаємо Spring Security Test (для @WithMockUser, csrf())
+    testImplementation 'org.springframework.security:spring-security-test:6.2.4'
+
+    // Явно додаємо Mockito JUnit Jupiter (для @Mock, @InjectMocks)
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0'
+
+    // Явно додаємо Hamcrest Library (для equalTo, hasProperty)
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+
+    // Явно додаємо Spring Test (для MockMultipartFile, якщо starter-test не справляється)
+    testImplementation 'org.springframework:spring-test:6.1.8'
+
+
     testImplementation 'org.springframework.integration:spring-integration-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springframework.boot:spring-boot-starter-validation'

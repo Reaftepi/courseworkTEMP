@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" tests="27" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:46.779Z" hostname="DESKTOP-MJO9OOU" time="0.286">
+  <properties/>
+  <testcase name="addTherapy_shouldThrowException_whenTherapyNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.225"/>
+  <testcase name="updateProtocol_shouldThrowException_whenProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.003"/>
+  <testcase name="getAllTherapies_shouldReturnAllTherapies()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="removeDiagnosis_shouldDeleteDiagnosisProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getDiagnosesForProtocol_shouldReturnDiagnoses()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.001"/>
+  <testcase name="addDiagnosis_shouldThrowException_whenDiagnosisNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getOneProtocolForPatient_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.003"/>
+  <testcase name="updateProtocol_shouldUpdateResultAndSave()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getProtocol_shouldReturnProtocol_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.003"/>
+  <testcase name="getAllDiagnoses_shouldReturnAllDiagnoses()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getOneProtocolForPatient_shouldReturnProtocol_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="saveProtocol_shouldSaveProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getProtocol_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getTherapiesForProtocol_shouldReturnTherapies()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.001"/>
+  <testcase name="getPatientById_shouldReturnPatient_whenExists()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="createProtocol_shouldCreateAndSaveProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.004"/>
+  <testcase name="getPatientById_shouldThrowException_whenNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="removeTherapy_shouldDeleteTherapyProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getProtocolsForPatient_shouldReturnProtocols()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.001"/>
+  <testcase name="addNote_shouldCreateAndSaveSessionNote()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="addDiagnosis_shouldThrowException_whenProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="createProtocol_shouldThrowException_whenPatientNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="getNotesForAppointment_shouldReturnNotes()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="createProtocol_shouldThrowException_whenStaffNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="addTherapy_shouldThrowException_whenProtocolNotFound()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="addDiagnosis_shouldAddDiagnosisToProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <testcase name="addTherapy_shouldAddTherapyToProtocol()" classname="kpi.pavlenko.shvets.coursework.service.MedicalCardServiceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

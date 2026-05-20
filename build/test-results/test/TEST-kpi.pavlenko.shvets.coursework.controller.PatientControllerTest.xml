@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-05-20T12:04:45.543Z" hostname="DESKTOP-MJO9OOU" time="0.339">
+  <properties/>
+  <testcase name="update_shouldReturnServerError_whenPatientServiceThrowsException()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.011"/>
+  <testcase name="list_shouldReturnFilteredPatientList_whenQueryProvided()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.036"/>
+  <testcase name="view_shouldReturnPatientCard_whenPatientExists()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.024"/>
+  <testcase name="list_shouldReturnPatientList_whenNoQuery()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.01"/>
+  <testcase name="create_shouldCreatePatientAndRedirect_whenValidData()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.005"/>
+  <testcase name="editForm_shouldReturnEditForm_whenPatientExists()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.016"/>
+  <testcase name="newForm_shouldReturnNewPatientForm()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.009"/>
+  <testcase name="update_shouldUpdatePatientAndRedirect_whenValidData()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.006"/>
+  <testcase name="create_shouldSetDateOfArrival_whenNull()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.005"/>
+  <testcase name="delete_shouldReturnServerError_whenPatientServiceThrowsException()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.005"/>
+  <testcase name="view_shouldReturnServerError_whenPatientServiceThrowsException()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.004"/>
+  <testcase name="delete_shouldDeletePatientAndRedirect()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.003"/>
+  <testcase name="editForm_shouldReturnServerError_whenPatientDoesNotExist()" classname="kpi.pavlenko.shvets.coursework.controller.PatientControllerTest" time="0.003"/>
+  <system-out><![CDATA[2026-05-20T12:04:45.545Z  INFO 9684 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kpi.pavlenko.shvets.coursework.controller.PatientControllerTest]: PatientControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-20T12:04:45.548Z  INFO 9684 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kpi.pavlenko.shvets.coursework.CourseworkApplication for test class kpi.pavlenko.shvets.coursework.controller.PatientControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.6)
+
+2026-05-20T12:04:45.561Z  INFO 9684 --- [    Test worker] k.p.s.c.c.PatientControllerTest          : Starting PatientControllerTest using Java 21.0.11 with PID 9684 (started by wolfr in D:\coursework-main)
+2026-05-20T12:04:45.561Z  INFO 9684 --- [    Test worker] k.p.s.c.c.PatientControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2026-05-20T12:04:45.696Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4cbc7954, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1490d71d, org.springframework.security.web.context.SecurityContextHolderFilter@ee46bef, org.springframework.security.web.header.HeaderWriterFilter@20f1913b, org.springframework.web.filter.CorsFilter@4af3cf26, org.springframework.security.web.csrf.CsrfFilter@71f0a294, org.springframework.security.web.authentication.logout.LogoutFilter@59558b3f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@39c50120, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@62c462e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2a786799, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5b2e0b59, org.springframework.security.web.session.SessionManagementFilter@7af48227, org.springframework.security.web.access.ExceptionTranslationFilter@3767f4e1, org.springframework.security.web.access.intercept.AuthorizationFilter@5481578e]
+2026-05-20T12:04:45.698Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/forgot-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:45.698Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/forgot-password']
+2026-05-20T12:04:45.698Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/reset-password']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:45.698Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/reset-password']
+2026-05-20T12:04:45.698Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:45.698Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2026-05-20T12:04:45.698Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:45.699Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/js/**']
+2026-05-20T12:04:45.699Z  WARN 9684 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-20T12:04:45.699Z  INFO 9684 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/images/**']
+2026-05-20T12:04:45.727Z  INFO 9684 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-20T12:04:45.727Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-20T12:04:45.728Z  INFO 9684 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-20T12:04:45.732Z  INFO 9684 --- [    Test worker] k.p.s.c.c.PatientControllerTest          : Started PatientControllerTest in 0.182 seconds (process running for 10.628)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
